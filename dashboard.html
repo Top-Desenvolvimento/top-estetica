@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Top Estética Bucal — PIX Doutores</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+:root{--bg:#0a0e1a;--surface:#111827;--surface2:#1a2236;--border:#1e2d47;--accent:#00d4ff;--accent2:#00ff9d;--text:#e2e8f0;--text-dim:#64748b;--text-bright:#f8fafc;--danger:#ff2244;--warning:#ffbb00;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:'Space Grotesk',sans-serif;min-height:100vh;}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,255,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0;}
+.container{position:relative;z-index:1;max-width:1600px;margin:0 auto;padding:0 24px 60px;}
+header{padding:22px 0 16px;border-bottom:1px solid var(--border);margin-bottom:22px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+.logo-area{display:flex;align-items:center;gap:14px;}
+.logo-icon{width:46px;height:46px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 0 20px rgba(0,212,255,0.3);}
+h1{font-size:20px;font-weight:700;color:var(--text-bright);}
+.subtitle{font-size:12px;color:var(--text-dim);font-family:'DM Mono',monospace;}
+.header-right{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.status-badge{display:flex;align-items:center;gap:8px;padding:7px 13px;background:var(--surface2);border:1px solid var(--border);border-radius:20px;font-size:12px;color:var(--text-dim);font-family:'DM Mono',monospace;}
+.status-dot{width:8px;height:8px;border-radius:50%;background:var(--text-dim);}
+.status-dot.active{background:var(--accent2);box-shadow:0 0 8px var(--accent2);animation:pulse 2s infinite;}
+.status-dot.loading{background:var(--warning);animation:pulse .5s infinite;}
+.status-dot.error{background:var(--danger);}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.btn{display:flex;align-items:center;gap:7px;padding:9px 16px;border-radius:9px;font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:600;cursor:pointer;border:none;transition:all .2s;}
+.btn-primary{background:linear-gradient(135deg,var(--accent),#0099bb);color:#000;}
+.btn-primary:hover{transform:translateY(-1px);}
+.btn-secondary{background:var(--surface2);color:var(--text);border:1px solid var(--border);}
+.btn-secondary:hover{border-color:var(--accent);color:var(--accent);}
+.btn-export{background:linear-gradient(135deg,var(--accent2),#00bb73);color:#000;}
+.btn-export:hover{transform:translateY(-1px);}
+.btn:disabled{opacity:.4;cursor:not-allowed;transform:none!important;}
+.summary-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:12px;margin-bottom:22px;}
+.summary-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px;position:relative;overflow:hidden;transition:border-color .2s,transform .2s;}
+.summary-card:hover{border-color:var(--accent);transform:translateY(-2px);}
+.summary-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),var(--accent2));}
+.summary-card.danger::before{background:linear-gradient(90deg,var(--danger),var(--warning));}
+.card-label{font-size:11px;font-weight:600;color:var(--text-dim);text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px;font-family:'DM Mono',monospace;}
+.card-value{font-size:24px;font-weight:700;color:var(--text-bright);letter-spacing:-1px;}
+.card-sub{font-size:12px;color:var(--text-dim);margin-top:5px;}
+.card-icon{position:absolute;top:14px;right:14px;font-size:20px;opacity:.2;}
+.tabs{display:flex;gap:4px;margin-bottom:18px;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:5px;}
+.tab{padding:8px 18px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;color:var(--text-dim);}
+.tab.active{background:var(--accent);color:#000;}
+.tab-content{display:none;}
+.tab-content.active{display:block;}
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;gap:10px;flex-wrap:wrap;}
+.section-title{font-size:14px;font-weight:700;color:var(--text-bright);}
+.badge{padding:4px 10px;background:var(--surface2);border:1px solid var(--border);border-radius:20px;font-size:11px;color:var(--text-dim);font-family:'DM Mono',monospace;}
+.doctor-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(235px,1fr));gap:11px;margin-bottom:24px;}
+.doctor-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:15px;position:relative;overflow:hidden;transition:all .3s;}
+.doctor-card.ok:hover{border-color:var(--accent2);transform:translateY(-2px);}
+.doctor-card.warn{border-color:rgba(255,187,0,.45);}
+.doctor-card.blocked{border-color:var(--danger)!important;animation:blinkCard 1.4s ease-in-out infinite;}
+@keyframes blinkCard{0%,100%{background:var(--surface);box-shadow:none;}50%{background:rgba(255,34,68,.07);box-shadow:0 0 24px rgba(255,34,68,.28);}}
+.blocked-badge{position:absolute;top:9px;right:9px;background:var(--danger);color:#fff;font-size:9px;font-weight:700;padding:2px 7px;border-radius:4px;font-family:'DM Mono',monospace;}
+.dc-name{font-size:13px;font-weight:700;color:var(--text-bright);margin-bottom:2px;padding-right:72px;line-height:1.3;}
+.dc-local{font-size:11px;color:var(--text-dim);font-family:'DM Mono',monospace;margin-bottom:8px;}
+.dc-pix{font-size:10px;font-family:'DM Mono',monospace;margin-bottom:9px;word-break:break-all;line-height:1.4;}
+.dc-pix.ok-pix{color:var(--text-dim);opacity:.65;}
+.dc-pix.no-pix{color:var(--danger);}
+.dc-values{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-bottom:8px;}
+.dc-val{text-align:center;background:var(--surface2);border-radius:6px;padding:6px 3px;}
+.dc-val-label{font-size:9px;color:var(--text-dim);font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:.4px;}
+.dc-val-num{font-size:13px;font-weight:700;font-family:'DM Mono',monospace;margin-top:2px;}
+.num-blue{color:var(--accent);}
+.num-green{color:var(--accent2);}
+.num-red{color:var(--danger);}
+.num-yellow{color:var(--warning);}
+.progress-bar{height:5px;background:var(--border);border-radius:3px;overflow:hidden;}
+.progress-fill{height:100%;border-radius:3px;transition:width .6s ease;}
+.pf-ok{background:linear-gradient(90deg,var(--accent2),#00bb73);}
+.pf-warn{background:linear-gradient(90deg,var(--warning),#cc8800);}
+.pf-block{background:linear-gradient(90deg,var(--danger),#aa0022);}
+.pct-label{font-size:10px;color:var(--text-dim);text-align:right;margin-top:2px;font-family:'DM Mono',monospace;}
+.filters-bar{display:flex;gap:10px;flex-wrap:wrap;padding:14px;background:var(--surface);border:1px solid var(--border);border-radius:12px;margin-bottom:16px;align-items:flex-end;}
+.filter-group{display:flex;flex-direction:column;gap:4px;}
+.filter-group label{font-size:10px;font-weight:600;color:var(--text-dim);text-transform:uppercase;letter-spacing:.8px;font-family:'DM Mono',monospace;}
+.filter-group select,.filter-group input{padding:7px 11px;background:var(--surface2);border:1px solid var(--border);border-radius:7px;color:var(--text);font-family:'Space Grotesk',sans-serif;font-size:13px;outline:none;min-width:138px;}
+.filter-group select:focus,.filter-group input:focus{border-color:var(--accent);}
+.filter-group select option{background:var(--surface2);}
+.filter-spacer{flex:1;}
+.table-wrap{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:22px;}
+.table-scroll{overflow-x:auto;}
+table{width:100%;border-collapse:collapse;min-width:800px;}
+thead th{padding:11px 14px;text-align:left;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.7px;color:var(--text-dim);background:var(--surface2);border-bottom:1px solid var(--border);font-family:'DM Mono',monospace;white-space:nowrap;cursor:pointer;user-select:none;}
+thead th:hover{color:var(--accent);}
+tbody tr{border-bottom:1px solid rgba(30,45,71,.5);transition:background .15s;}
+tbody tr:last-child{border-bottom:none;}
+tbody tr:hover{background:rgba(0,212,255,.025);}
+tbody td{padding:10px 14px;font-size:13px;vertical-align:middle;}
+.td-date{font-family:'DM Mono',monospace;font-size:12px;color:var(--text-dim);white-space:nowrap;}
+.td-doctor{font-weight:600;color:var(--text-bright);}
+.city-tag{display:inline-block;padding:3px 8px;border-radius:5px;font-size:11px;font-weight:600;font-family:'DM Mono',monospace;text-transform:uppercase;}
+.td-value{font-family:'DM Mono',monospace;font-weight:600;color:var(--accent2);text-align:right;white-space:nowrap;}
+.td-nf{font-family:'DM Mono',monospace;font-size:11px;color:var(--text-dim);max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.td-payer{font-size:12px;color:var(--text-dim);}
+.city-CAXIAS{background:rgba(0,212,255,.1);color:#00d4ff;}
+.city-FARROUPILHA{background:rgba(0,255,157,.1);color:#00ff9d;}
+.city-SOLEDADE{background:rgba(255,107,53,.1);color:#ff6b35;}
+.city-ENCANTADO{background:rgba(255,187,0,.1);color:#ffbb00;}
+.city-GARIBALDI{background:rgba(180,100,255,.1);color:#b464ff;}
+.city-VERANÓPOLIS,.city-VERANOPOLIS{background:rgba(255,80,120,.1);color:#ff5078;}
+.city-SSDOCAÍ,.city-SSDOCAI{background:rgba(80,200,255,.1);color:#50c8ff;}
+.city-BENTO{background:rgba(100,255,200,.1);color:#64ffc8;}
+.city-FLORES{background:rgba(255,150,80,.1);color:#ff9650;}
+.empty-state{text-align:center;padding:48px 20px;color:var(--text-dim);}
+.empty-icon{font-size:34px;margin-bottom:10px;opacity:.4;}
+.alert-blocked{background:rgba(255,34,68,.1);border:1px solid rgba(255,34,68,.35);border-radius:11px;padding:15px 18px;margin-bottom:18px;font-size:13px;color:#ffaaaa;display:none;animation:blinkBanner 1.5s ease-in-out infinite;line-height:1.9;}
+@keyframes blinkBanner{0%,100%{background:rgba(255,34,68,.1);}50%{background:rgba(255,34,68,.2);}}
+.city-summary-table{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:22px;}
+.repo-config{background:rgba(0,212,255,.04);border:1px solid rgba(0,212,255,.15);border-radius:11px;padding:14px 18px;font-size:12px;color:rgba(0,212,255,.75);line-height:1.8;margin-bottom:20px;}
+.repo-config strong{color:var(--accent);}
+.repo-config input{background:var(--surface2);border:1px solid var(--border);border-radius:6px;color:var(--text);padding:5px 10px;font-family:'DM Mono',monospace;font-size:12px;width:100%;margin-top:4px;outline:none;}
+.repo-config input:focus{border-color:var(--accent);}
+::-webkit-scrollbar{width:5px;height:5px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+@media(max-width:768px){header{flex-direction:column;align-items:flex-start;}.summary-grid{grid-template-columns:repeat(2,1fr);}}
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <div class="logo-area">
+      <div class="logo-icon">🦷</div>
+      <div>
+        <h1>Top Estética Bucal</h1>
+        <div class="subtitle">PIX Doutores — Atualização Automática via GitHub</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="status-badge">
+        <div class="status-dot" id="statusDot"></div>
+        <span id="statusText">Carregando...</span>
+      </div>
+      <div class="status-badge" id="updateBadge" style="display:none">
+        🕐 <span id="updateTime"></span>
+      </div>
+      <button class="btn btn-primary" onclick="fetchData()" id="btnRefresh">🔄 Atualizar Agora</button>
+      <button class="btn btn-export" onclick="exportToExcel()">📥 Exportar Excel</button>
+    </div>
+  </header>
+
+  <!-- Alert bloqueados -->
+  <div class="alert-blocked" id="alertBlocked"></div>
+
+  <!-- Config do repositório -->
+  <div class="repo-config" id="repoConfig">
+    <strong>⚙️ Configure o repositório GitHub onde seus dados estão salvos:</strong><br>
+    URL do arquivo dados.json (GitHub raw):
+    <input type="text" id="repoUrl" placeholder="https://raw.githubusercontent.com/SEU-USUARIO/top-estetica/main/scripts/dados.json"
+           onchange="saveRepoUrl()" onblur="fetchData()">
+    <small style="opacity:.7;font-size:11px">Cole a URL do arquivo dados.json do seu repositório GitHub (clique em Raw no arquivo)</small>
+  </div>
+
+  <!-- Summary -->
+  <div class="summary-grid">
+    <div class="summary-card">
+      <div class="card-label">Total PIX Recebido</div>
+      <div class="card-value" id="totalGeral">R$ 0,00</div>
+      <div class="card-sub" id="totalCount">0 transações</div>
+      <div class="card-icon">💰</div>
+    </div>
+    <div class="summary-card danger">
+      <div class="card-label">🚫 Bloqueados</div>
+      <div class="card-value" id="totalBloq" style="color:var(--danger)">0</div>
+      <div class="card-sub">não repassar PIX</div>
+      <div class="card-icon">⛔</div>
+    </div>
+    <div class="summary-card">
+      <div class="card-label">Saldo Disponível Total</div>
+      <div class="card-value" id="totalSaldo">R$ 0,00</div>
+      <div class="card-sub">soma dos limites restantes</div>
+      <div class="card-icon">📊</div>
+    </div>
+    <div class="summary-card">
+      <div class="card-label">Mês de Referência</div>
+      <div class="card-value" id="mesRef" style="font-size:18px">—</div>
+      <div class="card-sub" id="cidadesOk">aguardando dados</div>
+      <div class="card-icon">📅</div>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <div class="tab active" onclick="switchTab('doutores')">👨‍⚕️ Doutores &amp; Limites</div>
+    <div class="tab" onclick="switchTab('lancamentos')">📋 Lançamentos</div>
+    <div class="tab" onclick="switchTab('cidades')">📍 Por Cidade</div>
+  </div>
+
+  <!-- TAB DOUTORES -->
+  <div class="tab-content active" id="tab-doutores">
+    <div class="section-header">
+      <div class="section-title">👨‍⚕️ Doutores Cadastrados <span id="dcCount" style="color:var(--text-dim);font-weight:400;font-size:13px"></span></div>
+      <button class="btn btn-secondary" onclick="toggleAll()" id="btnToggle" style="font-size:12px;padding:7px 12px">Mostrar todos</button>
+    </div>
+    <div class="doctor-grid" id="doctorGrid">
+      <div style="color:var(--text-dim);font-size:13px;padding:20px;grid-column:1/-1;text-align:center">Carregando doutores...</div>
+    </div>
+  </div>
+
+  <!-- TAB LANÇAMENTOS -->
+  <div class="tab-content" id="tab-lancamentos">
+    <div class="filters-bar">
+      <div class="filter-group">
+        <label>Cidade</label>
+        <select id="filterCity" onchange="applyFilters()"><option value="">Todas</option></select>
+      </div>
+      <div class="filter-group">
+        <label>Doutor(a)</label>
+        <select id="filterDoctor" onchange="applyFilters()"><option value="">Todos</option></select>
+      </div>
+      <div class="filter-group">
+        <label>Busca</label>
+        <input type="text" id="filterSearch" placeholder="Paciente ou doutor..." oninput="applyFilters()">
+      </div>
+      <div class="filter-spacer"></div>
+      <button class="btn btn-secondary" onclick="clearFilters()">✕ Limpar</button>
+    </div>
+    <div class="section-header">
+      <div class="section-title">📋 Lançamentos PIX Doutores</div>
+      <div class="badge" id="recordBadge">0 registros</div>
+    </div>
+    <div class="table-wrap">
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th onclick="sortBy('data')">Data ↕</th>
+              <th onclick="sortBy('doutor')">Doutor(a) ↕</th>
+              <th onclick="sortBy('cidade')">Cidade ↕</th>
+              <th>Paciente / Origem</th>
+              <th>Responsável</th>
+              <th onclick="sortBy('valor')" style="text-align:right">Valor ↕</th>
+              <th>Chave PIX (NF)</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody">
+            <tr><td colspan="7"><div class="empty-state"><div class="empty-icon">🔄</div><div>Aguardando dados do GitHub...</div></div></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB CIDADES -->
+  <div class="tab-content" id="tab-cidades">
+    <div class="city-summary-table">
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>Cidade</th><th>Total PIX</th><th>Transações</th><th>Doutores</th><th>Ticket Médio</th><th>Proporção</th></tr></thead>
+          <tbody id="cityBody"><tr><td colspan="6"><div class="empty-state"><div class="empty-icon">📍</div><div>Aguardando dados...</div></div></td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ========== DOUTORES CADASTRADOS ==========
+const DOUTORES = [
+  {nome:'Adriele da Silva',          pix:'',                                         limite:2000,  local:'Farroupilha'},
+  {nome:'Alan Sechin',               pix:'034.247.410-35',                           limite:0,     local:''},
+  {nome:'Alexandre Favero',          pix:'54997111727',                              limite:1500,  local:''},
+  {nome:'Ana Carolina Portes',       pix:'draanacarolinaportes@gmail.com',           limite:1210,  local:''},
+  {nome:'Ana Cristina Corso',        pix:'54991612540',                              limite:1500,  local:''},
+  {nome:'Diogo Cemim',               pix:'54991831951',                              limite:100,   local:'Soledade'},
+  {nome:'Bianca Hofman',             pix:'não autorizado pix',                       limite:0,     local:''},
+  {nome:'Bruno Castellan',           pix:'2086873000',                               limite:600,   local:''},
+  {nome:'Bruno Lorenzoni',           pix:'51991429288',                              limite:2000,  local:''},
+  {nome:'Cristian Pressi',           pix:'63152309000117',                           limite:5000,  local:''},
+  {nome:'Murilo Debortoli',          pix:'4507008018',                               limite:500,   local:''},
+  {nome:'Dionathan Pohlmann',        pix:'dionathanph@gmail.com',                    limite:6000,  local:'Flores'},
+  {nome:'Emerson Rhoden',            pix:'54981469051',                              limite:0,     local:''},
+  {nome:'Everlize Cipriani',         pix:'010.451.100-19',                           limite:2000,  local:'Farroupilha'},
+  {nome:'Fernana Sozo',              pix:'54999842330',                              limite:1500,  local:''},
+  {nome:'Franciele Pedrotti',        pix:'58851477000160',                           limite:10000, local:''},
+  {nome:'Gabrielli Fabonato',        pix:'54991698645',                              limite:4000,  local:''},
+  {nome:'Giovana Gasparini',         pix:'54996822082',                              limite:2000,  local:''},
+  {nome:'Gislaine Santos',           pix:'38297797805',                              limite:1000,  local:''},
+  {nome:'Greici Matiello',           pix:'54991893311',                              limite:500,   local:''},
+  {nome:'Jéssica Barreto',           pix:'039.932.200.05',                           limite:1000,  local:'Bento'},
+  {nome:'Joana Sganzerla',           pix:'938217003',                                limite:1000,  local:''},
+  {nome:'João Augusto Keler',        pix:'joao.keler@universo.univates.br',          limite:1000,  local:''},
+  {nome:'Juana Billig',              pix:'juana.billig@gmail.com',                   limite:4300,  local:''},
+  {nome:'Laura Luiza Cimolin',       pix:'lauraluizacimolin@gmail.com',              limite:2000,  local:''},
+  {nome:'Leandro Diniz',             pix:'14568995701',                              limite:400,   local:''},
+  {nome:'Letícia Cauzzi',            pix:'04565411016',                              limite:4000,  local:''},
+  {nome:'Luiz Henrique',             pix:'98788396053',                              limite:2500,  local:'Farroupilha'},
+  {nome:'Leticia Canabarro (SOL)',   pix:'54992342002',                              limite:3000,  local:''},
+  {nome:'Marcella Zancanaro',        pix:'4952333078',                               limite:1145,  local:''},
+  {nome:'Matheus Strapasson',        pix:'2598169069',                               limite:1000,  local:'Farroupilha'},
+  {nome:'Morgana Zambiasi',          pix:'zambiasimorgana@gmail.com',                limite:1500,  local:''},
+  {nome:'Naiane Pieta',              pix:'02520912057',                              limite:1000,  local:'Bento'},
+  {nome:'Nelson Vaccari',            pix:'54999174994',                              limite:4000,  local:'Bento'},
+  {nome:'Nicoli Weber',              pix:'05371943129',                              limite:1500,  local:''},
+  {nome:'Evalda Baldissera',         pix:'54984188934',                              limite:6170,  local:'Veranópolis'},
+  {nome:'Rodrigo Silveira',          pix:'51982940785',                              limite:1500,  local:''},
+  {nome:'Sara Trevisol',             pix:'03635558036',                              limite:1000,  local:''},
+  {nome:'Sofie Owens',               pix:'sofie.owens@hotmail.com',                  limite:2500,  local:''},
+  {nome:'Tamara Macanan',            pix:'54996448434',                              limite:8000,  local:''},
+  {nome:'Gustavo Lourenço Ongaratto',pix:'3372256050',                              limite:3000,  local:'Soledade'},
+  {nome:'Thiany Cristofoli',         pix:'54996177112',                              limite:4000,  local:''},
+  {nome:'Thalia Tessaro',            pix:'5a64e276-f01a-4340-9837-68a8b20eeb74',     limite:3156,  local:''},
+  {nome:'Thalia Vezzosi',            pix:'thaliavezzosi@rede.ulbra.br',              limite:3000,  local:'Farroupilha'},
+];
+
+function normPix(p){ return (p||'').toLowerCase().replace(/[\s\-\.\:\(\)\/cpfCPF]/g,''); }
+const pixMap = {};
+DOUTORES.forEach(d=>{ const n=normPix(d.pix); if(n && d.pix!=='não autorizado pix') pixMap[n]=d; });
+
+function findDoutorByPix(nf){
+  if(!nf) return 'Não identificado';
+  const norm=normPix(nf);
+  if(pixMap[norm]) return pixMap[norm].nome;
+  for(const [k,d] of Object.entries(pixMap)){
+    if(norm.length>=6&&(k.includes(norm)||norm.includes(k))) return d.nome;
+  }
+  return `NF:${nf}`;
+}
+
+// ========== STATE ==========
+let allData=[], filteredData=[], sortCol='data', sortDir=1, showAll=false;
+let autoRefreshTimer=null;
+
+// ========== INIT ==========
+window.addEventListener('DOMContentLoaded',()=>{
+  const saved = localStorage.getItem('repoUrl');
+  if(saved) document.getElementById('repoUrl').value=saved;
+  renderDoctorCards(); // show doctors immediately
+  fetchData();
+  // Auto-refresh a cada 5 minutos
+  autoRefreshTimer = setInterval(fetchData, 5*60*1000);
+});
+
+function saveRepoUrl(){
+  localStorage.setItem('repoUrl', document.getElementById('repoUrl').value);
+}
+
+// ========== FETCH DATA FROM GITHUB ==========
+async function fetchData(){
+  const repoUrl = document.getElementById('repoUrl').value.trim();
+  if(!repoUrl){
+    setStatus('error','Configure a URL do repositório →');
+    return;
+  }
+  setStatus('loading','Buscando dados...');
+  document.getElementById('btnRefresh').disabled=true;
+  try{
+    // Adiciona cache-busting para evitar dados antigos
+    const url = repoUrl + '?t=' + Date.now();
+    const res = await fetch(url);
+    if(!res.ok) throw new Error(`HTTP ${res.status}`);
+    const json = await res.json();
+
+    // Processar dados: enriche com nome do doutor via chave PIX
+    allData = (json.dados||[]).map(r=>({
+      ...r,
+      doutor: findDoutorByPix(r.nf),
+      pixKey: normPix(r.nf)
+    }));
+
+    document.getElementById('mesRef').textContent    = json.mes_ref || '—';
+    document.getElementById('cidadesOk').textContent = `${json.cidades_ok||0} de 9 cidades`;
+    document.getElementById('updateTime').textContent = new Date(json.gerado_em).toLocaleString('pt-BR');
+    document.getElementById('updateBadge').style.display='flex';
+
+    setStatus('active',`${allData.length} registros • atualizado`);
+    renderAll();
+  }catch(e){
+    setStatus('error','Erro ao carregar: '+e.message);
+    console.error(e);
+  }
+  document.getElementById('btnRefresh').disabled=false;
+}
+
+// ========== TABS ==========
+function switchTab(n){
+  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',['doutores','lancamentos','cidades'][i]===n));
+  document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
+  document.getElementById('tab-'+n).classList.add('active');
+}
+
+// ========== RENDER ALL ==========
+function renderAll(){ applyFilters(); renderSummary(); renderDoctorCards(); renderCityTable(); checkBlocked(); }
+
+// ========== FILTERS ==========
+function applyFilters(){
+  const city=document.getElementById('filterCity').value;
+  const doctor=document.getElementById('filterDoctor').value;
+  const search=document.getElementById('filterSearch').value.toLowerCase();
+  filteredData=allData.filter(r=>{
+    if(city&&r.cidade!==city) return false;
+    if(doctor&&r.doutor!==doctor) return false;
+    if(search&&!r.paciente.toLowerCase().includes(search)&&!r.doutor.toLowerCase().includes(search)) return false;
+    return true;
+  });
+  const cities=[...new Set(allData.map(r=>r.cidade))].sort();
+  const doctors=[...new Set(allData.map(r=>r.doutor))].sort();
+  const ce=document.getElementById('filterCity'),cv=ce.value;
+  const de=document.getElementById('filterDoctor'),dv=de.value;
+  ce.innerHTML='<option value="">Todas</option>'+cities.map(c=>`<option value="${c}"${c===cv?' selected':''}>${c}</option>`).join('');
+  de.innerHTML='<option value="">Todos</option>'+doctors.map(d=>`<option value="${d}"${d===dv?' selected':''}>${d}</option>`).join('');
+  sortData(); renderTable();
+}
+function clearFilters(){ document.getElementById('filterCity').value=''; document.getElementById('filterDoctor').value=''; document.getElementById('filterSearch').value=''; applyFilters(); }
+
+// ========== SORT ==========
+function sortBy(col){ if(sortCol===col) sortDir*=-1; else{sortCol=col;sortDir=1;} sortData(); renderTable(); }
+function sortData(){
+  filteredData.sort((a,b)=>{
+    if(sortCol==='valor') return (a.valor-b.valor)*sortDir;
+    if(sortCol==='data'){const pa=(a.data||'').split('/').reverse().join('');const pb=(b.data||'').split('/').reverse().join('');return pa.localeCompare(pb)*sortDir;}
+    return String(a[sortCol]).localeCompare(String(b[sortCol]))*sortDir;
+  });
+}
+
+// ========== SUMMARY ==========
+function renderSummary(){
+  const total=allData.reduce((s,r)=>s+r.valor,0);
+  document.getElementById('totalGeral').textContent=fmt(total);
+  document.getElementById('totalCount').textContent=`${allData.length} transações`;
+  const recPix={};
+  allData.forEach(r=>{if(r.pixKey) recPix[r.pixKey]=(recPix[r.pixKey]||0)+r.valor;});
+  let saldo=0,bloq=0;
+  DOUTORES.forEach(d=>{
+    const rec=recPix[normPix(d.pix)]||0,sal=d.limite-rec;
+    const isB=d.limite===0||d.pix==='não autorizado pix'||(d.pix&&d.limite>0&&sal<=0);
+    if(d.limite>0&&!isB) saldo+=sal;
+    if(isB) bloq++;
+  });
+  document.getElementById('totalSaldo').textContent=fmt(saldo);
+  document.getElementById('totalBloq').textContent=bloq;
+}
+
+// ========== DOCTOR CARDS ==========
+function renderDoctorCards(){
+  const recPix={};
+  allData.forEach(r=>{if(r.pixKey) recPix[r.pixKey]=(recPix[r.pixKey]||0)+r.valor;});
+  const computed=DOUTORES.map(d=>{
+    const pixN=normPix(d.pix),rec=recPix[pixN]||0,saldo=d.limite-rec;
+    const pct=d.limite>0?Math.min(rec/d.limite*100,100):(rec>0?100:0);
+    const isBlocked=d.limite===0||d.pix==='não autorizado pix'||(d.pix&&d.limite>0&&saldo<=0);
+    return{...d,rec,saldo,pct,isBlocked};
+  }).sort((a,b)=>{
+    if(a.isBlocked&&!b.isBlocked) return -1;
+    if(!a.isBlocked&&b.isBlocked) return 1;
+    return b.pct-a.pct;
+  });
+  let html='',shown=0,blockedCount=0;
+  computed.forEach(d=>{
+    if(!showAll&&d.limite===0&&d.pix!=='não autorizado pix') return;
+    shown++; if(d.isBlocked) blockedCount++;
+    const cls=d.isBlocked?'blocked':d.pct>=80?'warn':'ok';
+    const pfC=d.isBlocked||d.saldo<=0?'pf-block':d.pct>=80?'pf-warn':'pf-ok';
+    const sC=d.saldo<=0?'num-red':d.pct>=80?'num-yellow':'num-green';
+    html+=`<div class="doctor-card ${cls}">
+      ${d.isBlocked?'<div class="blocked-badge">🚫 BLOQUEADO</div>':''}
+      <div class="dc-name">${d.nome}</div>
+      ${d.local?`<div class="dc-local">${d.local}</div>`:'<div style="height:4px"></div>'}
+      <div class="dc-pix ${(!d.pix||d.pix==='não autorizado pix')?'no-pix':'ok-pix'}">${d.pix&&d.pix!=='não autorizado pix'?'🔑 '+d.pix:'⛔ PIX não autorizado'}</div>
+      <div class="dc-values">
+        <div class="dc-val"><div class="dc-val-label">Limite</div><div class="dc-val-num num-blue">${fmtK(d.limite)}</div></div>
+        <div class="dc-val"><div class="dc-val-label">Recebido</div><div class="dc-val-num num-green">${fmtK(d.rec)}</div></div>
+        <div class="dc-val"><div class="dc-val-label">Saldo</div><div class="dc-val-num ${sC}">${fmtK(d.saldo)}</div></div>
+      </div>
+      <div class="progress-bar"><div class="progress-fill ${pfC}" style="width:${Math.min(d.pct,100).toFixed(0)}%"></div></div>
+      <div class="pct-label">${Math.min(d.pct,100).toFixed(0)}% utilizado</div>
+    </div>`;
+  });
+  document.getElementById('doctorGrid').innerHTML=html||'<div style="color:var(--text-dim);font-size:13px;padding:20px;grid-column:1/-1">Nenhum doutor.</div>';
+  document.getElementById('dcCount').textContent=`(${shown} exibidos • ${blockedCount} bloqueados)`;
+}
+function toggleAll(){ showAll=!showAll; document.getElementById('btnToggle').textContent=showAll?'Ocultar sem limite':'Mostrar todos'; renderDoctorCards(); }
+
+// ========== CITY TABLE ==========
+function renderCityTable(){
+  const map={},total=allData.reduce((s,r)=>s+r.valor,0);
+  allData.forEach(r=>{map[r.cidade]=map[r.cidade]||{total:0,count:0,docs:new Set()};map[r.cidade].total+=r.valor;map[r.cidade].count++;map[r.cidade].docs.add(r.doutor);});
+  const sorted=Object.entries(map).sort((a,b)=>b[1].total-a[1].total);
+  const body=document.getElementById('cityBody');
+  if(!sorted.length){body.innerHTML='<tr><td colspan="6"><div class="empty-state"><div class="empty-icon">📍</div><div>Sem dados</div></div></td></tr>';return;}
+  body.innerHTML=sorted.map(([city,d])=>{
+    const key=city.toUpperCase().replace(/\s/g,'').replace('SSDOCAÍ','SSDOCAI').replace('VERANÓPOLIS','VERANOPOLIS');
+    const pct=total?(d.total/total*100):0;
+    return`<tr><td><span class="city-tag city-${key}">${city}</span></td>
+      <td style="font-family:'DM Mono',monospace;font-weight:700;color:var(--accent2)">${fmt(d.total)}</td>
+      <td style="color:var(--text-dim)">${d.count}</td><td style="color:var(--text-dim)">${d.docs.size}</td>
+      <td style="font-family:'DM Mono',monospace;font-size:12px;color:var(--text-dim)">${fmt(d.total/d.count)}</td>
+      <td style="min-width:110px"><div style="display:flex;align-items:center;gap:7px">
+        <div class="progress-bar" style="flex:1"><div class="progress-fill pf-ok" style="width:${pct.toFixed(1)}%"></div></div>
+        <span style="font-size:11px;color:var(--text-dim);font-family:'DM Mono',monospace;width:34px">${pct.toFixed(1)}%</span>
+      </div></td></tr>`;
+  }).join('')+`<tr style="background:var(--surface2);font-weight:700"><td style="color:var(--text-bright)">TOTAL</td><td style="font-family:'DM Mono',monospace;color:var(--accent)">${fmt(total)}</td><td style="color:var(--text-dim)">${allData.length}</td><td colspan="3"></td></tr>`;
+}
+
+// ========== TRANSACTIONS TABLE ==========
+function renderTable(){
+  const body=document.getElementById('tableBody');
+  document.getElementById('recordBadge').textContent=`${filteredData.length} registros`;
+  if(!filteredData.length){body.innerHTML='<tr><td colspan="7"><div class="empty-state"><div class="empty-icon">📭</div><div>Nenhum lançamento</div></div></td></tr>';return;}
+  body.innerHTML=filteredData.map(r=>{
+    const key=(r.cidade||'').toUpperCase().replace(/\s/g,'').replace('SSDOCAÍ','SSDOCAI').replace('VERANÓPOLIS','VERANOPOLIS');
+    return`<tr><td class="td-date">${r.data}</td><td class="td-doctor">${r.doutor}</td>
+      <td><span class="city-tag city-${key}">${r.cidade}</span></td>
+      <td>${r.paciente}</td><td class="td-payer">${r.responsavel||'—'}</td>
+      <td class="td-value">${fmt(r.valor)}</td>
+      <td class="td-nf" title="${r.nf}">${r.nf||'—'}</td></tr>`;
+  }).join('');
+}
+
+// ========== BLOCKED ALERT ==========
+function checkBlocked(){
+  const recPix={};
+  allData.forEach(r=>{if(r.pixKey) recPix[r.pixKey]=(recPix[r.pixKey]||0)+r.valor;});
+  const bloq=DOUTORES.filter(d=>{
+    if(d.limite===0||d.pix==='não autorizado pix') return true;
+    if(!d.pix) return false;
+    return d.limite>0&&(recPix[normPix(d.pix)]||0)>=d.limite;
+  }).map(d=>d.nome);
+  const el=document.getElementById('alertBlocked');
+  if(bloq.length&&allData.length){
+    el.style.display='block';
+    el.innerHTML=`🚫 <strong>NÃO REPASSAR PIX — LIMITE ZERADO OU BLOQUEADO:</strong><br>${bloq.map(n=>`• ${n}`).join('<br>')}`;
+  } else el.style.display='none';
+}
+
+// ========== STATUS ==========
+function setStatus(t,m){
+  document.getElementById('statusDot').className='status-dot '+(t==='active'?'active':t==='loading'?'loading':t==='error'?'error':'');
+  document.getElementById('statusText').textContent=m;
+}
+
+// ========== EXPORT ==========
+function exportToExcel(){
+  const wb=XLSX.utils.book_new();
+  const ws1=XLSX.utils.aoa_to_sheet([['DATA','DOUTOR(A)','CIDADE','PACIENTE','RESPONSÁVEL','VALOR PIX','CHAVE PIX (NF)'],...allData.map(r=>[r.data,r.doutor,r.cidade,r.paciente,r.responsavel,r.valor,r.nf])]);
+  ws1['!cols']=[12,24,14,35,25,12,28].map(w=>({wch:w}));
+  XLSX.utils.book_append_sheet(wb,ws1,'Lançamentos');
+  const recPix={};
+  allData.forEach(r=>{if(r.pixKey) recPix[r.pixKey]=(recPix[r.pixKey]||0)+r.valor;});
+  const ws2=XLSX.utils.aoa_to_sheet([['DOUTOR(A)','LOCAL','CHAVE PIX','LIMITE','RECEBIDO','SALDO','STATUS'],...DOUTORES.map(d=>{const rec=recPix[normPix(d.pix)]||0,sal=d.limite-rec;const st=d.limite===0||d.pix==='não autorizado pix'?'BLOQUEADO':sal<=0?'BLOQUEADO':sal<d.limite*.2?'ATENÇÃO':'OK';return[d.nome,d.local,d.pix,d.limite,rec,sal,st];})]);
+  ws2['!cols']=[26,18,30,14,14,14,10].map(w=>({wch:w}));
+  XLSX.utils.book_append_sheet(wb,ws2,'Doutores');
+  XLSX.writeFile(wb,`TopEstetica_PIX_${new Date().toLocaleDateString('pt-BR').replace(/\//g,'-')}.xlsx`);
+}
+
+// ========== UTILS ==========
+function fmt(v){return new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(v||0);}
+function fmtK(v){if(Math.abs(v||0)>=1000)return((v||0)/1000).toFixed(1).replace('.',',')+' k';return fmt(v);}
+</script>
+</body>
+</html>
