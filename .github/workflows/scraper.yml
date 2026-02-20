@@ -1,1 +1,36 @@
+name: Scraper Top Estética
 
+on:
+  schedule:
+    - cron: '0 * * * *'
+  workflow_dispatch:
+
+jobs:
+  scraper:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install playwright requests
+          playwright install chromium
+
+      - name: Run scraper
+        env:
+          SISTEMA_USER: ${{ secrets.SISTEMA_USER }}
+          SISTEMA_PASS: ${{ secrets.SISTEMA_PASS }}
+        run: python scripts/scraper.py
+
+      - name: Commit dados
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "actions@github.com"
+          git add dados.json || true
+          git diff --staged --quiet || git commit -m "Atualizar dados"
+          git push
