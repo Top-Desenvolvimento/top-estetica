@@ -4,553 +4,781 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Top Estética Bucal — PIX Doutores</title>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0a0e1a;--surface:#111827;--surface2:#1a2236;--border:#1e2d47;--accent:#00d4ff;--accent2:#00ff9d;--text:#e2e8f0;--text-dim:#64748b;--text-bright:#f8fafc;--danger:#ff2244;--warning:#ffbb00;}
-*{margin:0;padding:0;box-sizing:border-box;}
-body{background:var(--bg);color:var(--text);font-family:'Space Grotesk',sans-serif;min-height:100vh;}
-body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,255,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0;}
-.container{position:relative;z-index:1;max-width:1600px;margin:0 auto;padding:0 24px 60px;}
-header{padding:22px 0 16px;border-bottom:1px solid var(--border);margin-bottom:22px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
-.logo-area{display:flex;align-items:center;gap:14px;}
-.logo-icon{width:46px;height:46px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 0 20px rgba(0,212,255,0.3);}
-h1{font-size:20px;font-weight:700;color:var(--text-bright);}
-.subtitle{font-size:12px;color:var(--text-dim);font-family:'DM Mono',monospace;}
-.header-right{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
-.status-badge{display:flex;align-items:center;gap:8px;padding:7px 13px;background:var(--surface2);border:1px solid var(--border);border-radius:20px;font-size:12px;color:var(--text-dim);font-family:'DM Mono',monospace;}
-.status-dot{width:8px;height:8px;border-radius:50%;background:var(--text-dim);}
-.status-dot.active{background:var(--accent2);box-shadow:0 0 8px var(--accent2);animation:pulse 2s infinite;}
-.status-dot.loading{background:var(--warning);animation:pulse .5s infinite;}
-.status-dot.error{background:var(--danger);}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-.btn{display:flex;align-items:center;gap:7px;padding:9px 16px;border-radius:9px;font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:600;cursor:pointer;border:none;transition:all .2s;}
-.btn-primary{background:linear-gradient(135deg,var(--accent),#0099bb);color:#000;}
-.btn-primary:hover{transform:translateY(-1px);}
-.btn-secondary{background:var(--surface2);color:var(--text);border:1px solid var(--border);}
-.btn-secondary:hover{border-color:var(--accent);color:var(--accent);}
-.btn-export{background:linear-gradient(135deg,var(--accent2),#00bb73);color:#000;}
-.btn-export:hover{transform:translateY(-1px);}
-.btn:disabled{opacity:.4;cursor:not-allowed;transform:none!important;}
-.summary-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:12px;margin-bottom:22px;}
-.summary-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px;position:relative;overflow:hidden;transition:border-color .2s,transform .2s;}
-.summary-card:hover{border-color:var(--accent);transform:translateY(-2px);}
-.summary-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),var(--accent2));}
-.summary-card.danger::before{background:linear-gradient(90deg,var(--danger),var(--warning));}
-.card-label{font-size:11px;font-weight:600;color:var(--text-dim);text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px;font-family:'DM Mono',monospace;}
-.card-value{font-size:24px;font-weight:700;color:var(--text-bright);letter-spacing:-1px;}
-.card-sub{font-size:12px;color:var(--text-dim);margin-top:5px;}
-.card-icon{position:absolute;top:14px;right:14px;font-size:20px;opacity:.2;}
-.tabs{display:flex;gap:4px;margin-bottom:18px;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:5px;}
-.tab{padding:8px 18px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;color:var(--text-dim);}
-.tab.active{background:var(--accent);color:#000;}
-.tab-content{display:none;}
-.tab-content.active{display:block;}
-.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;gap:10px;flex-wrap:wrap;}
-.section-title{font-size:14px;font-weight:700;color:var(--text-bright);}
-.badge{padding:4px 10px;background:var(--surface2);border:1px solid var(--border);border-radius:20px;font-size:11px;color:var(--text-dim);font-family:'DM Mono',monospace;}
-.doctor-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(235px,1fr));gap:11px;margin-bottom:24px;}
-.doctor-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:15px;position:relative;overflow:hidden;transition:all .3s;}
-.doctor-card.ok:hover{border-color:var(--accent2);transform:translateY(-2px);}
-.doctor-card.warn{border-color:rgba(255,187,0,.45);}
-.doctor-card.blocked{border-color:var(--danger)!important;animation:blinkCard 1.4s ease-in-out infinite;}
-@keyframes blinkCard{0%,100%{background:var(--surface);box-shadow:none;}50%{background:rgba(255,34,68,.07);box-shadow:0 0 24px rgba(255,34,68,.28);}}
-.blocked-badge{position:absolute;top:9px;right:9px;background:var(--danger);color:#fff;font-size:9px;font-weight:700;padding:2px 7px;border-radius:4px;font-family:'DM Mono',monospace;}
-.dc-name{font-size:13px;font-weight:700;color:var(--text-bright);margin-bottom:2px;padding-right:72px;line-height:1.3;}
-.dc-local{font-size:11px;color:var(--text-dim);font-family:'DM Mono',monospace;margin-bottom:8px;}
-.dc-pix{font-size:10px;font-family:'DM Mono',monospace;margin-bottom:9px;word-break:break-all;line-height:1.4;}
-.dc-pix.ok-pix{color:var(--text-dim);opacity:.65;}
-.dc-pix.no-pix{color:var(--danger);}
-.dc-values{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-bottom:8px;}
-.dc-val{text-align:center;background:var(--surface2);border-radius:6px;padding:6px 3px;}
-.dc-val-label{font-size:9px;color:var(--text-dim);font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:.4px;}
-.dc-val-num{font-size:13px;font-weight:700;font-family:'DM Mono',monospace;margin-top:2px;}
-.num-blue{color:var(--accent);}
-.num-green{color:var(--accent2);}
-.num-red{color:var(--danger);}
-.num-yellow{color:var(--warning);}
-.progress-bar{height:5px;background:var(--border);border-radius:3px;overflow:hidden;}
-.progress-fill{height:100%;border-radius:3px;transition:width .6s ease;}
-.pf-ok{background:linear-gradient(90deg,var(--accent2),#00bb73);}
-.pf-warn{background:linear-gradient(90deg,var(--warning),#cc8800);}
-.pf-block{background:linear-gradient(90deg,var(--danger),#aa0022);}
-.pct-label{font-size:10px;color:var(--text-dim);text-align:right;margin-top:2px;font-family:'DM Mono',monospace;}
-.filters-bar{display:flex;gap:10px;flex-wrap:wrap;padding:14px;background:var(--surface);border:1px solid var(--border);border-radius:12px;margin-bottom:16px;align-items:flex-end;}
-.filter-group{display:flex;flex-direction:column;gap:4px;}
-.filter-group label{font-size:10px;font-weight:600;color:var(--text-dim);text-transform:uppercase;letter-spacing:.8px;font-family:'DM Mono',monospace;}
-.filter-group select,.filter-group input{padding:7px 11px;background:var(--surface2);border:1px solid var(--border);border-radius:7px;color:var(--text);font-family:'Space Grotesk',sans-serif;font-size:13px;outline:none;min-width:138px;}
-.filter-group select:focus,.filter-group input:focus{border-color:var(--accent);}
-.filter-group select option{background:var(--surface2);}
-.filter-spacer{flex:1;}
-.table-wrap{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:22px;}
-.table-scroll{overflow-x:auto;}
-table{width:100%;border-collapse:collapse;min-width:800px;}
-thead th{padding:11px 14px;text-align:left;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.7px;color:var(--text-dim);background:var(--surface2);border-bottom:1px solid var(--border);font-family:'DM Mono',monospace;white-space:nowrap;cursor:pointer;user-select:none;}
-thead th:hover{color:var(--accent);}
-tbody tr{border-bottom:1px solid rgba(30,45,71,.5);transition:background .15s;}
-tbody tr:last-child{border-bottom:none;}
-tbody tr:hover{background:rgba(0,212,255,.025);}
-tbody td{padding:10px 14px;font-size:13px;vertical-align:middle;}
-.td-date{font-family:'DM Mono',monospace;font-size:12px;color:var(--text-dim);white-space:nowrap;}
-.td-doctor{font-weight:600;color:var(--text-bright);}
-.city-tag{display:inline-block;padding:3px 8px;border-radius:5px;font-size:11px;font-weight:600;font-family:'DM Mono',monospace;text-transform:uppercase;}
-.td-value{font-family:'DM Mono',monospace;font-weight:600;color:var(--accent2);text-align:right;white-space:nowrap;}
-.td-nf{font-family:'DM Mono',monospace;font-size:11px;color:var(--text-dim);max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.td-payer{font-size:12px;color:var(--text-dim);}
-.city-CAXIAS{background:rgba(0,212,255,.1);color:#00d4ff;}
-.city-FARROUPILHA{background:rgba(0,255,157,.1);color:#00ff9d;}
-.city-SOLEDADE{background:rgba(255,107,53,.1);color:#ff6b35;}
-.city-ENCANTADO{background:rgba(255,187,0,.1);color:#ffbb00;}
-.city-GARIBALDI{background:rgba(180,100,255,.1);color:#b464ff;}
-.city-VERANÓPOLIS,.city-VERANOPOLIS{background:rgba(255,80,120,.1);color:#ff5078;}
-.city-SSDOCAÍ,.city-SSDOCAI{background:rgba(80,200,255,.1);color:#50c8ff;}
-.city-BENTO{background:rgba(100,255,200,.1);color:#64ffc8;}
-.city-FLORES{background:rgba(255,150,80,.1);color:#ff9650;}
-.empty-state{text-align:center;padding:48px 20px;color:var(--text-dim);}
-.empty-icon{font-size:34px;margin-bottom:10px;opacity:.4;}
-.alert-blocked{background:rgba(255,34,68,.1);border:1px solid rgba(255,34,68,.35);border-radius:11px;padding:15px 18px;margin-bottom:18px;font-size:13px;color:#ffaaaa;display:none;animation:blinkBanner 1.5s ease-in-out infinite;line-height:1.9;}
-@keyframes blinkBanner{0%,100%{background:rgba(255,34,68,.1);}50%{background:rgba(255,34,68,.2);}}
-.city-summary-table{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:22px;}
-.repo-config{background:rgba(0,212,255,.04);border:1px solid rgba(0,212,255,.15);border-radius:11px;padding:14px 18px;font-size:12px;color:rgba(0,212,255,.75);line-height:1.8;margin-bottom:20px;}
-.repo-config strong{color:var(--accent);}
-.repo-config input{background:var(--surface2);border:1px solid var(--border);border-radius:6px;color:var(--text);padding:5px 10px;font-family:'DM Mono',monospace;font-size:12px;width:100%;margin-top:4px;outline:none;}
-.repo-config input:focus{border-color:var(--accent);}
-::-webkit-scrollbar{width:5px;height:5px;}
-::-webkit-scrollbar-track{background:var(--bg);}
-::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
-@media(max-width:768px){header{flex-direction:column;align-items:flex-start;}.summary-grid{grid-template-columns:repeat(2,1fr);}}
+  :root {
+    --bg: #0a0e1a; --surface: #111827; --surface2: #1a2235; --border: #1e2d45;
+    --accent: #00d4ff; --accent2: #00ff9d; --danger: #ff3b5c; --warning: #ffb547;
+    --text: #e8f0fe; --muted: #6b7fa3; --card-radius: 16px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Sora', sans-serif; min-height: 100vh; overflow-x: hidden; }
+  body::before {
+    content: ''; position: fixed; top: -50%; left: -50%; width: 200%; height: 200%;
+    background: radial-gradient(ellipse at 20% 20%, rgba(0,212,255,0.05) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(0,255,157,0.04) 0%, transparent 50%);
+    pointer-events: none; z-index: 0;
+  }
+
+  /* HEADER */
+  header {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(10,14,26,0.95); backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 64px;
+  }
+  .logo { display: flex; align-items: center; gap: 12px; }
+  .logo-icon { width: 36px; height: 36px; background: linear-gradient(135deg, var(--accent), var(--accent2)); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+  .logo-text { font-size: 1rem; font-weight: 700; }
+  .logo-sub { font-size: 0.7rem; color: var(--muted); font-weight: 300; }
+  .header-right { display: flex; align-items: center; gap: 10px; }
+  #last-update { font-size: 0.72rem; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
+
+  /* TABS */
+  .tabs { display: flex; gap: 4px; background: var(--surface2); border-radius: 10px; padding: 4px; }
+  .tab-btn {
+    padding: 6px 16px; border-radius: 7px; border: none; cursor: pointer;
+    font-family: 'Sora', sans-serif; font-size: 0.8rem; font-weight: 600;
+    background: transparent; color: var(--muted); transition: all 0.2s;
+  }
+  .tab-btn.active { background: var(--surface); color: var(--text); box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
+
+  .btn {
+    display: flex; align-items: center; gap: 6px; padding: 8px 16px;
+    border-radius: 8px; border: none; cursor: pointer;
+    font-family: 'Sora', sans-serif; font-size: 0.8rem; font-weight: 600; transition: all 0.2s;
+  }
+  .btn-primary { background: linear-gradient(135deg, var(--accent), #0099bb); color: #000; }
+  .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(0,212,255,0.3); }
+  .btn-secondary { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
+  .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+  .btn-danger { background: rgba(255,59,92,0.15); color: var(--danger); border: 1px solid rgba(255,59,92,0.3); }
+  .btn-danger:hover { background: rgba(255,59,92,0.25); }
+  .btn-success { background: rgba(0,255,157,0.15); color: var(--accent2); border: 1px solid rgba(0,255,157,0.3); }
+  .btn-success:hover { background: rgba(0,255,157,0.25); }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none !important; }
+
+  /* ALERTA */
+  #alerta-bloqueados {
+    display: none; margin: 1.5rem 2rem 0;
+    background: rgba(255,59,92,0.1); border: 1px solid rgba(255,59,92,0.4);
+    border-radius: var(--card-radius); padding: 1rem 1.5rem;
+    animation: pulse-border 2s infinite;
+  }
+  @keyframes pulse-border { 0%,100%{border-color:rgba(255,59,92,0.4)} 50%{border-color:rgba(255,59,92,0.9);box-shadow:0 0 20px rgba(255,59,92,0.2)} }
+  .alerta-title { font-size: 0.85rem; font-weight: 700; color: var(--danger); margin-bottom: 6px; }
+  .alerta-lista { font-size: 0.8rem; color: #ff8099; line-height: 1.8; }
+
+  /* MAIN */
+  main { position: relative; z-index: 1; padding: 1.5rem 2rem 3rem; max-width: 1600px; margin: 0 auto; }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  /* STATS */
+  .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+  .stat-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: var(--card-radius);
+    padding: 1.25rem 1.5rem; position: relative; overflow: hidden; transition: transform 0.2s;
+  }
+  .stat-card:hover { transform: translateY(-2px); }
+  .stat-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--accent-color, var(--accent)); }
+  .stat-label { font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+  .stat-value { font-size: 1.8rem; font-weight: 700; font-family: 'JetBrains Mono', monospace; color: var(--accent-color, var(--accent)); }
+  .stat-sub { font-size: 0.75rem; color: var(--muted); margin-top: 4px; }
+
+  /* FILTROS */
+  .filters { display: flex; gap: 12px; margin-bottom: 1.5rem; flex-wrap: wrap; align-items: flex-end; }
+  .filter-group { display: flex; flex-direction: column; gap: 4px; }
+  .filter-label { font-size: 0.68rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.8px; }
+  select, input[type="text"], input[type="number"] {
+    background: var(--surface); border: 1px solid var(--border); color: var(--text);
+    padding: 8px 12px; border-radius: 8px; font-family: 'Sora', sans-serif;
+    font-size: 0.82rem; outline: none; transition: border-color 0.2s; min-width: 140px;
+  }
+  select:focus, input:focus { border-color: var(--accent); }
+
+  /* LAYOUT */
+  .main-grid { display: grid; grid-template-columns: 1fr 360px; gap: 1.5rem; align-items: start; }
+  @media (max-width: 1100px) { .main-grid { grid-template-columns: 1fr; } }
+
+  /* TABELA */
+  .table-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--card-radius); overflow: hidden; }
+  .table-header { padding: 1rem 1.5rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+  .table-title { font-size: 0.9rem; font-weight: 700; }
+  .table-count { font-size: 0.75rem; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
+  .table-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; }
+  thead th { padding: 10px 14px; text-align: left; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.8px; color: var(--muted); background: var(--surface2); border-bottom: 1px solid var(--border); white-space: nowrap; }
+  tbody tr { border-bottom: 1px solid rgba(30,45,69,0.5); transition: background 0.15s; }
+  tbody tr:hover { background: rgba(0,212,255,0.04); }
+  tbody tr.bloqueado { background: rgba(255,59,92,0.05); }
+  td { padding: 10px 14px; font-size: 0.82rem; white-space: nowrap; }
+  .td-paciente { max-width: 240px; overflow: hidden; text-overflow: ellipsis; }
+  .td-valor { font-family: 'JetBrains Mono', monospace; font-weight: 600; color: var(--accent2); }
+  .td-nf { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--muted); }
+  .badge-cidade { display: inline-block; padding: 2px 8px; border-radius: 20px; font-size: 0.68rem; font-weight: 600; text-transform: uppercase; }
+  .badge-doutor { display: inline-block; padding: 2px 10px; border-radius: 20px; font-size: 0.72rem; font-weight: 600; background: rgba(0,212,255,0.1); color: var(--accent); border: 1px solid rgba(0,212,255,0.2); }
+  .badge-bloqueado { display: inline-block; padding: 2px 8px; border-radius: 20px; font-size: 0.68rem; font-weight: 600; background: rgba(255,59,92,0.15); color: var(--danger); border: 1px solid rgba(255,59,92,0.3); animation: blink 1.5s infinite; }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.4} }
+  .tr-cidade-total td { background: var(--surface2); font-weight: 700; font-size: 0.78rem; color: var(--accent); border-top: 1px solid var(--border); }
+
+  /* SIDEBAR DOUTORES */
+  .sidebar { display: flex; flex-direction: column; gap: 1rem; }
+  .section-title { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 0.75rem; }
+  .doutor-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1rem 1.2rem; transition: all 0.2s; cursor: pointer; }
+  .doutor-card:hover { border-color: var(--accent); transform: translateX(2px); }
+  .doutor-card.bloqueado { border-color: rgba(255,59,92,0.5); background: rgba(255,59,92,0.05); animation: pulse-card 2s infinite; }
+  @keyframes pulse-card { 0%,100%{box-shadow:none} 50%{box-shadow:0 0 15px rgba(255,59,92,0.2)} }
+  .doutor-nome { font-size: 0.85rem; font-weight: 700; }
+  .doutor-pix { font-size: 0.68rem; color: var(--muted); font-family: 'JetBrains Mono', monospace; margin-top: 2px; }
+  .progress-bar { height: 6px; background: var(--surface2); border-radius: 3px; overflow: hidden; margin-top: 8px; }
+  .progress-fill { height: 100%; border-radius: 3px; transition: width 0.5s ease; background: linear-gradient(90deg, var(--accent2), var(--accent)); }
+  .progress-fill.danger { background: linear-gradient(90deg, #ff3b5c, #ff6b80); }
+  .progress-fill.warning { background: linear-gradient(90deg, var(--warning), #ffd080); }
+  .doutor-valores { display: flex; justify-content: space-between; margin-top: 6px; font-size: 0.72rem; font-family: 'JetBrains Mono', monospace; }
+  .val-usado { color: var(--accent2); }
+  .val-saldo.danger { color: var(--danger); font-weight: 700; }
+  .val-saldo.warning { color: var(--warning); font-weight: 700; }
+  .val-saldo.ok { color: var(--muted); }
+
+  /* CIDADES */
+  .cidades-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 0.75rem; margin-bottom: 1.5rem; }
+  .cidade-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 0.9rem 1rem; cursor: pointer; transition: all 0.2s; }
+  .cidade-card:hover, .cidade-card.active { border-color: var(--accent); background: rgba(0,212,255,0.05); }
+  .cidade-nome { font-size: 0.8rem; font-weight: 700; margin-bottom: 4px; }
+  .cidade-total { font-size: 1.1rem; font-weight: 700; font-family: 'JetBrains Mono', monospace; color: var(--accent2); }
+  .cidade-count { font-size: 0.7rem; color: var(--muted); }
+
+  /* LOADING */
+  #loading { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 4rem; gap: 1rem; }
+  .spinner { width: 40px; height: 40px; border: 3px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .empty-state { text-align: center; padding: 3rem; color: var(--muted); font-size: 0.85rem; }
+
+  /* ADMIN */
+  .admin-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; }
+  .admin-title { font-size: 1.1rem; font-weight: 700; }
+  .admin-table-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--card-radius); overflow: hidden; }
+  .admin-table { width: 100%; border-collapse: collapse; }
+  .admin-table thead th { padding: 10px 14px; text-align: left; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.8px; color: var(--muted); background: var(--surface2); border-bottom: 1px solid var(--border); }
+  .admin-table tbody tr { border-bottom: 1px solid rgba(30,45,69,0.4); }
+  .admin-table tbody tr:hover { background: rgba(0,212,255,0.03); }
+  .admin-table td { padding: 8px 10px; }
+  .admin-input {
+    background: transparent; border: 1px solid transparent; color: var(--text);
+    padding: 5px 8px; border-radius: 6px; font-family: 'Sora', sans-serif;
+    font-size: 0.8rem; width: 100%; transition: all 0.2s; min-width: 0;
+  }
+  .admin-input:focus { background: var(--surface2); border-color: var(--accent); outline: none; }
+  .admin-input.limite { font-family: 'JetBrains Mono', monospace; width: 90px; }
+  .bloqueado-toggle {
+    display: flex; align-items: center; gap: 6px; cursor: pointer;
+    font-size: 0.75rem; padding: 4px 10px; border-radius: 6px; border: none;
+    font-family: 'Sora', sans-serif; font-weight: 600; transition: all 0.2s;
+  }
+  .bloqueado-toggle.sim { background: rgba(255,59,92,0.15); color: var(--danger); border: 1px solid rgba(255,59,92,0.3); }
+  .bloqueado-toggle.nao { background: rgba(0,255,157,0.1); color: var(--accent2); border: 1px solid rgba(0,255,157,0.2); }
+  .add-doutor-form {
+    background: var(--surface2); border: 1px dashed var(--border); border-radius: var(--card-radius);
+    padding: 1.5rem; margin-top: 1.5rem; display: grid;
+    grid-template-columns: 2fr 2fr 1fr auto; gap: 12px; align-items: end;
+  }
+  .form-group { display: flex; flex-direction: column; gap: 6px; }
+  .form-label { font-size: 0.68rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.8px; }
+  .form-input {
+    background: var(--surface); border: 1px solid var(--border); color: var(--text);
+    padding: 8px 12px; border-radius: 8px; font-family: 'Sora', sans-serif; font-size: 0.82rem; outline: none;
+  }
+  .form-input:focus { border-color: var(--accent); }
+  .save-notice { font-size: 0.72rem; color: var(--accent2); margin-top: 1rem; display: none; }
+
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
 </style>
 </head>
 <body>
-<div class="container">
-  <header>
-    <div class="logo-area">
-      <div class="logo-icon">🦷</div>
-      <div>
-        <h1>Top Estética Bucal</h1>
-        <div class="subtitle">PIX Doutores — Atualização Automática via GitHub</div>
-      </div>
-    </div>
-    <div class="header-right">
-      <div class="status-badge">
-        <div class="status-dot" id="statusDot"></div>
-        <span id="statusText">Carregando...</span>
-      </div>
-      <div class="status-badge" id="updateBadge" style="display:none">
-        🕐 <span id="updateTime"></span>
-      </div>
-      <button class="btn btn-primary" onclick="fetchData()" id="btnRefresh">🔄 Atualizar Agora</button>
-      <button class="btn btn-export" onclick="exportToExcel()">📥 Exportar Excel</button>
-    </div>
-  </header>
 
-  <!-- Alert bloqueados -->
-  <div class="alert-blocked" id="alertBlocked"></div>
-
-  <!-- Config do repositório -->
-  <div class="repo-config" id="repoConfig">
-    <strong>⚙️ Configure o repositório GitHub onde seus dados estão salvos:</strong><br>
-    URL do arquivo dados.json (GitHub raw):
-    <input type="text" id="repoUrl" placeholder="https://raw.githubusercontent.com/SEU-USUARIO/top-estetica/main/scripts/dados.json"
-           onchange="saveRepoUrl()" onblur="fetchData()">
-    <small style="opacity:.7;font-size:11px">Cole a URL do arquivo dados.json do seu repositório GitHub (clique em Raw no arquivo)</small>
-  </div>
-
-  <!-- Summary -->
-  <div class="summary-grid">
-    <div class="summary-card">
-      <div class="card-label">Total PIX Recebido</div>
-      <div class="card-value" id="totalGeral">R$ 0,00</div>
-      <div class="card-sub" id="totalCount">0 transações</div>
-      <div class="card-icon">💰</div>
-    </div>
-    <div class="summary-card danger">
-      <div class="card-label">🚫 Bloqueados</div>
-      <div class="card-value" id="totalBloq" style="color:var(--danger)">0</div>
-      <div class="card-sub">não repassar PIX</div>
-      <div class="card-icon">⛔</div>
-    </div>
-    <div class="summary-card">
-      <div class="card-label">Saldo Disponível Total</div>
-      <div class="card-value" id="totalSaldo">R$ 0,00</div>
-      <div class="card-sub">soma dos limites restantes</div>
-      <div class="card-icon">📊</div>
-    </div>
-    <div class="summary-card">
-      <div class="card-label">Mês de Referência</div>
-      <div class="card-value" id="mesRef" style="font-size:18px">—</div>
-      <div class="card-sub" id="cidadesOk">aguardando dados</div>
-      <div class="card-icon">📅</div>
+<header>
+  <div class="logo">
+    <div class="logo-icon">🦷</div>
+    <div>
+      <div class="logo-text">Top Estética Bucal</div>
+      <div class="logo-sub">PIX Doutores — Dashboard</div>
     </div>
   </div>
-
-  <!-- Tabs -->
-  <div class="tabs">
-    <div class="tab active" onclick="switchTab('doutores')">👨‍⚕️ Doutores &amp; Limites</div>
-    <div class="tab" onclick="switchTab('lancamentos')">📋 Lançamentos</div>
-    <div class="tab" onclick="switchTab('cidades')">📍 Por Cidade</div>
+  <div class="header-right">
+    <span id="last-update">Carregando...</span>
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('dashboard')">📊 Dashboard</button>
+      <button class="tab-btn" onclick="switchTab('admin')">⚙️ Admin</button>
+    </div>
+    <button class="btn btn-secondary" onclick="carregarDados()" id="btn-atualizar">🔄 Atualizar</button>
+    <button class="btn btn-primary" onclick="exportarExcel()">📥 Excel</button>
   </div>
+</header>
 
-  <!-- TAB DOUTORES -->
-  <div class="tab-content active" id="tab-doutores">
-    <div class="section-header">
-      <div class="section-title">👨‍⚕️ Doutores Cadastrados <span id="dcCount" style="color:var(--text-dim);font-weight:400;font-size:13px"></span></div>
-      <button class="btn btn-secondary" onclick="toggleAll()" id="btnToggle" style="font-size:12px;padding:7px 12px">Mostrar todos</button>
-    </div>
-    <div class="doctor-grid" id="doctorGrid">
-      <div style="color:var(--text-dim);font-size:13px;padding:20px;grid-column:1/-1;text-align:center">Carregando doutores...</div>
-    </div>
-  </div>
-
-  <!-- TAB LANÇAMENTOS -->
-  <div class="tab-content" id="tab-lancamentos">
-    <div class="filters-bar">
-      <div class="filter-group">
-        <label>Cidade</label>
-        <select id="filterCity" onchange="applyFilters()"><option value="">Todas</option></select>
-      </div>
-      <div class="filter-group">
-        <label>Doutor(a)</label>
-        <select id="filterDoctor" onchange="applyFilters()"><option value="">Todos</option></select>
-      </div>
-      <div class="filter-group">
-        <label>Busca</label>
-        <input type="text" id="filterSearch" placeholder="Paciente ou doutor..." oninput="applyFilters()">
-      </div>
-      <div class="filter-spacer"></div>
-      <button class="btn btn-secondary" onclick="clearFilters()">✕ Limpar</button>
-    </div>
-    <div class="section-header">
-      <div class="section-title">📋 Lançamentos PIX Doutores</div>
-      <div class="badge" id="recordBadge">0 registros</div>
-    </div>
-    <div class="table-wrap">
-      <div class="table-scroll">
-        <table>
-          <thead>
-            <tr>
-              <th onclick="sortBy('data')">Data ↕</th>
-              <th onclick="sortBy('doutor')">Doutor(a) ↕</th>
-              <th onclick="sortBy('cidade')">Cidade ↕</th>
-              <th>Paciente / Origem</th>
-              <th>Responsável</th>
-              <th onclick="sortBy('valor')" style="text-align:right">Valor ↕</th>
-              <th>Chave PIX (NF)</th>
-            </tr>
-          </thead>
-          <tbody id="tableBody">
-            <tr><td colspan="7"><div class="empty-state"><div class="empty-icon">🔄</div><div>Aguardando dados do GitHub...</div></div></td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-
-  <!-- TAB CIDADES -->
-  <div class="tab-content" id="tab-cidades">
-    <div class="city-summary-table">
-      <div class="table-scroll">
-        <table>
-          <thead><tr><th>Cidade</th><th>Total PIX</th><th>Transações</th><th>Doutores</th><th>Ticket Médio</th><th>Proporção</th></tr></thead>
-          <tbody id="cityBody"><tr><td colspan="6"><div class="empty-state"><div class="empty-icon">📍</div><div>Aguardando dados...</div></div></td></tr></tbody>
-        </table>
-      </div>
-    </div>
-  </div>
+<div id="alerta-bloqueados">
+  <div class="alerta-title">🚫 ATENÇÃO — NÃO REPASSAR PIX PARA:</div>
+  <div class="alerta-lista" id="lista-bloqueados"></div>
 </div>
 
+<main>
+  <!-- LOADING -->
+  <div id="loading">
+    <div class="spinner"></div>
+    <span style="color:var(--muted);font-size:0.85rem">Buscando dados dos sistemas...</span>
+  </div>
+
+  <!-- DASHBOARD TAB -->
+  <div id="tab-dashboard" class="tab-content active" style="display:none">
+    <div class="stats-grid" id="stats-grid"></div>
+
+    <div class="section-title" style="margin-bottom:0.75rem">📍 Por Cidade — clique para filtrar</div>
+    <div class="cidades-grid" id="cidades-grid"></div>
+
+    <div class="filters">
+      <div class="filter-group">
+        <span class="filter-label">Cidade</span>
+        <select id="filtro-cidade" onchange="aplicarFiltros()">
+          <option value="">Todas</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <span class="filter-label">Doutor(a)</span>
+        <select id="filtro-doutor" onchange="aplicarFiltros()">
+          <option value="">Todos</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <span class="filter-label">Buscar paciente</span>
+        <input type="text" id="filtro-busca" placeholder="Nome..." oninput="aplicarFiltros()">
+      </div>
+      <div class="filter-group">
+        <span class="filter-label">Status</span>
+        <select id="filtro-status" onchange="aplicarFiltros()">
+          <option value="">Todos</option>
+          <option value="bloqueado">🚫 Bloqueados</option>
+          <option value="ok">✅ Ativos</option>
+        </select>
+      </div>
+      <button class="btn btn-secondary" onclick="limparFiltros()" style="height:36px">✕ Limpar</button>
+    </div>
+
+    <div class="main-grid">
+      <div class="table-card">
+        <div class="table-header">
+          <span class="table-title">Lançamentos PIX Doutores</span>
+          <span class="table-count" id="table-count"></span>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Data</th><th>Cidade</th><th>Paciente</th><th>Pago por</th>
+                <th>Doutor(a)</th><th>Valor</th><th>Chave PIX (NF)</th>
+              </tr>
+            </thead>
+            <tbody id="tabela-body"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="sidebar">
+        <div>
+          <div class="section-title">👨‍⚕️ Doutores — Saldo disponível</div>
+          <div id="doutores-lista"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADMIN TAB -->
+  <div id="tab-admin" class="tab-content">
+    <div class="admin-header">
+      <div class="admin-title">⚙️ Gerenciar Doutores</div>
+      <div style="display:flex;gap:10px">
+        <button class="btn btn-success" onclick="salvarDoutores()">💾 Salvar alterações</button>
+        <button class="btn btn-secondary" onclick="resetarDoutores()">↩ Restaurar padrão</button>
+      </div>
+    </div>
+    <p style="font-size:0.8rem;color:var(--muted);margin-bottom:1.5rem">
+      Edite os campos diretamente na tabela. Clique em 💾 Salvar para aplicar as mudanças.
+      Os dados ficam salvos no navegador automaticamente.
+    </p>
+
+    <div class="admin-table-card">
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th style="width:30px">#</th>
+            <th>Nome do Doutor(a)</th>
+            <th>Chave PIX</th>
+            <th>Limite R$</th>
+            <th>Status</th>
+            <th>Ação</th>
+          </tr>
+        </thead>
+        <tbody id="admin-tbody"></tbody>
+      </table>
+    </div>
+
+    <div class="add-doutor-form">
+      <div class="form-group">
+        <label class="form-label">Nome</label>
+        <input type="text" class="form-input" id="novo-nome" placeholder="Nome completo">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Chave PIX</label>
+        <input type="text" class="form-input" id="novo-pix" placeholder="CPF, telefone ou e-mail">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Limite R$</label>
+        <input type="number" class="form-input" id="novo-limite" placeholder="2000" min="0" step="0.01">
+      </div>
+      <button class="btn btn-primary" onclick="adicionarDoutor()" style="height:38px">+ Adicionar</button>
+    </div>
+
+    <div class="save-notice" id="save-notice">✅ Alterações salvas com sucesso!</div>
+  </div>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script>
-// ========== DOUTORES CADASTRADOS ==========
-const DOUTORES = [
-  {nome:'Adriele da Silva',          pix:'',                                         limite:2000,  local:'Farroupilha'},
-  {nome:'Alan Sechin',               pix:'034.247.410-35',                           limite:0,     local:''},
-  {nome:'Alexandre Favero',          pix:'54997111727',                              limite:1500,  local:''},
-  {nome:'Ana Carolina Portes',       pix:'draanacarolinaportes@gmail.com',           limite:1210,  local:''},
-  {nome:'Ana Cristina Corso',        pix:'54991612540',                              limite:1500,  local:''},
-  {nome:'Diogo Cemim',               pix:'54991831951',                              limite:100,   local:'Soledade'},
-  {nome:'Bianca Hofman',             pix:'não autorizado pix',                       limite:0,     local:''},
-  {nome:'Bruno Castellan',           pix:'2086873000',                               limite:600,   local:''},
-  {nome:'Bruno Lorenzoni',           pix:'51991429288',                              limite:2000,  local:''},
-  {nome:'Cristian Pressi',           pix:'63152309000117',                           limite:5000,  local:''},
-  {nome:'Murilo Debortoli',          pix:'4507008018',                               limite:500,   local:''},
-  {nome:'Dionathan Pohlmann',        pix:'dionathanph@gmail.com',                    limite:6000,  local:'Flores'},
-  {nome:'Emerson Rhoden',            pix:'54981469051',                              limite:0,     local:''},
-  {nome:'Everlize Cipriani',         pix:'010.451.100-19',                           limite:2000,  local:'Farroupilha'},
-  {nome:'Fernana Sozo',              pix:'54999842330',                              limite:1500,  local:''},
-  {nome:'Franciele Pedrotti',        pix:'58851477000160',                           limite:10000, local:''},
-  {nome:'Gabrielli Fabonato',        pix:'54991698645',                              limite:4000,  local:''},
-  {nome:'Giovana Gasparini',         pix:'54996822082',                              limite:2000,  local:''},
-  {nome:'Gislaine Santos',           pix:'38297797805',                              limite:1000,  local:''},
-  {nome:'Greici Matiello',           pix:'54991893311',                              limite:500,   local:''},
-  {nome:'Jéssica Barreto',           pix:'039.932.200.05',                           limite:1000,  local:'Bento'},
-  {nome:'Joana Sganzerla',           pix:'938217003',                                limite:1000,  local:''},
-  {nome:'João Augusto Keler',        pix:'joao.keler@universo.univates.br',          limite:1000,  local:''},
-  {nome:'Juana Billig',              pix:'juana.billig@gmail.com',                   limite:4300,  local:''},
-  {nome:'Laura Luiza Cimolin',       pix:'lauraluizacimolin@gmail.com',              limite:2000,  local:''},
-  {nome:'Leandro Diniz',             pix:'14568995701',                              limite:400,   local:''},
-  {nome:'Letícia Cauzzi',            pix:'04565411016',                              limite:4000,  local:''},
-  {nome:'Luiz Henrique',             pix:'98788396053',                              limite:2500,  local:'Farroupilha'},
-  {nome:'Leticia Canabarro (SOL)',   pix:'54992342002',                              limite:3000,  local:''},
-  {nome:'Marcella Zancanaro',        pix:'4952333078',                               limite:1145,  local:''},
-  {nome:'Matheus Strapasson',        pix:'2598169069',                               limite:1000,  local:'Farroupilha'},
-  {nome:'Morgana Zambiasi',          pix:'zambiasimorgana@gmail.com',                limite:1500,  local:''},
-  {nome:'Naiane Pieta',              pix:'02520912057',                              limite:1000,  local:'Bento'},
-  {nome:'Nelson Vaccari',            pix:'54999174994',                              limite:4000,  local:'Bento'},
-  {nome:'Nicoli Weber',              pix:'05371943129',                              limite:1500,  local:''},
-  {nome:'Evalda Baldissera',         pix:'54984188934',                              limite:6170,  local:'Veranópolis'},
-  {nome:'Rodrigo Silveira',          pix:'51982940785',                              limite:1500,  local:''},
-  {nome:'Sara Trevisol',             pix:'03635558036',                              limite:1000,  local:''},
-  {nome:'Sofie Owens',               pix:'sofie.owens@hotmail.com',                  limite:2500,  local:''},
-  {nome:'Tamara Macanan',            pix:'54996448434',                              limite:8000,  local:''},
-  {nome:'Gustavo Lourenço Ongaratto',pix:'3372256050',                              limite:3000,  local:'Soledade'},
-  {nome:'Thiany Cristofoli',         pix:'54996177112',                              limite:4000,  local:''},
-  {nome:'Thalia Tessaro',            pix:'5a64e276-f01a-4340-9837-68a8b20eeb74',     limite:3156,  local:''},
-  {nome:'Thalia Vezzosi',            pix:'thaliavezzosi@rede.ulbra.br',              limite:3000,  local:'Farroupilha'},
+// ===================== DADOS PADRÃO DOS DOUTORES =====================
+const DOUTORES_PADRAO = [
+  {nome:"Adriele da Silva",pix:"",limite:3000,bloqueado:false},
+  {nome:"Alan Sechin",pix:"",limite:0,bloqueado:true},
+  {nome:"Alexandre Favero",pix:"54997111727",limite:1500,bloqueado:false},
+  {nome:"Ana Cristina Corso",pix:"54991612540",limite:1500,bloqueado:false},
+  {nome:"Bruno Castellan",pix:"2086873000",limite:400,bloqueado:false},
+  {nome:"Bruno Lorenzoni",pix:"51991429288",limite:2000,bloqueado:false},
+  {nome:"Cristian Pressi",pix:"63152309000117",limite:5000,bloqueado:false},
+  {nome:"Diogo Amarante Cemim",pix:"54991831951",limite:100,bloqueado:false},
+  {nome:"Dionathan Pohlmann",pix:"dionathanph@gmail.com",limite:6000,bloqueado:false},
+  {nome:"Emerson Rhoden",pix:"54981469051",limite:0,bloqueado:true},
+  {nome:"Evalda Baldissera",pix:"54984188934",limite:6170,bloqueado:false},
+  {nome:"Everlize Cipriani",pix:"010.451.100-19",limite:2000,bloqueado:false},
+  {nome:"Fernanda Sozo",pix:"54999842330",limite:1500,bloqueado:false},
+  {nome:"Franciele Pedrotti",pix:"58851477000160",limite:10000,bloqueado:false},
+  {nome:"Gabrielli Fabonato",pix:"54991698645",limite:4000,bloqueado:false},
+  {nome:"Giovana Gasparini",pix:"54996822082",limite:2000,bloqueado:false},
+  {nome:"Gislaine Santos",pix:"38297797805",limite:1000,bloqueado:false},
+  {nome:"Greici Matiello",pix:"54991893311",limite:500,bloqueado:false},
+  {nome:"Gustavo Lourenço Ongaratto",pix:"3372256050",limite:100,bloqueado:false},
+  {nome:"Indiamara Rech",pix:"",limite:0,bloqueado:true},
+  {nome:"Jennifer Dotti",pix:"3691532004",limite:1000,bloqueado:false},
+  {nome:"Jéssica Barreto",pix:"039.932.200.05",limite:1000,bloqueado:false},
+  {nome:"Joana Sganzerla",pix:"938217003",limite:500,bloqueado:false},
+  {nome:"Juana Billig",pix:"juana.billig@gmail.com",limite:3500,bloqueado:false},
+  {nome:"Laura Luiza Cimolin",pix:"lauraluizacimolin@gmail.com",limite:2000,bloqueado:false},
+  {nome:"Leandro Diniz",pix:"14568995701",limite:1000,bloqueado:false},
+  {nome:"Leticia Canabarro",pix:"54992342002",limite:3100,bloqueado:false},
+  {nome:"Letícia Cauzzi",pix:"dentistaleticiacr@gmail.com",limite:4000,bloqueado:false},
+  {nome:"Luiz Henrique",pix:"98788396053",limite:1100,bloqueado:false},
+  {nome:"Marcella Zancanaro",pix:"4952333078",limite:1200,bloqueado:false},
+  {nome:"Matheus Strapasson",pix:"02598169069",limite:1000,bloqueado:false},
+  {nome:"Morgana Zambiasi",pix:"zambiasimorgana@gmail.com",limite:1500,bloqueado:false},
+  {nome:"Murilo Debortoli",pix:"4507008018",limite:1000,bloqueado:false},
+  {nome:"Naiane Pieta",pix:"025.209.120.57",limite:1000,bloqueado:false},
+  {nome:"Nelson Vaccari",pix:"54999174994",limite:4000,bloqueado:false},
+  {nome:"Nicoli Weber",pix:"05371943129",limite:1200,bloqueado:false},
+  {nome:"Rodrigo Silveira",pix:"51982940785",limite:1500,bloqueado:false},
+  {nome:"Sara Trevisol",pix:"03635558036",limite:1850,bloqueado:false},
+  {nome:"Sofie Owens",pix:"sofie.owens@hotmail.com",limite:3500,bloqueado:false},
+  {nome:"Tamara Macanan",pix:"54996448434",limite:8000,bloqueado:false},
+  {nome:"Thalia Tessaro",pix:"5a64e276-f01a-4340-9837-68a8b20eeb74",limite:3000,bloqueado:false},
+  {nome:"Thalia Vezzosi",pix:"thaliavezzosi@rede.ulbra.br",limite:2500,bloqueado:false},
+  {nome:"Thiany Cristofoli",pix:"54996177112",limite:4000,bloqueado:false},
 ];
 
-function normPix(p){ return (p||'').toLowerCase().replace(/[\s\-\.\:\(\)\/cpfCPF]/g,''); }
-const pixMap = {};
-DOUTORES.forEach(d=>{ const n=normPix(d.pix); if(n && d.pix!=='não autorizado pix') pixMap[n]=d; });
+// ===================== ESTADO =====================
+let DOUTORES = carregarDoutores();
+let PIX_MAP = {};
+let todosRegistros = [];
+let registrosFiltrados = [];
 
-function findDoutorByPix(nf){
-  if(!nf) return 'Não identificado';
-  const norm=normPix(nf);
-  if(pixMap[norm]) return pixMap[norm].nome;
-  for(const [k,d] of Object.entries(pixMap)){
-    if(norm.length>=6&&(k.includes(norm)||norm.includes(k))) return d.nome;
-  }
-  return `NF:${nf}`;
+function carregarDoutores() {
+  try {
+    const saved = localStorage.getItem('top_doutores');
+    if (saved) return JSON.parse(saved);
+  } catch(e) {}
+  return JSON.parse(JSON.stringify(DOUTORES_PADRAO));
 }
 
-// ========== STATE ==========
-let allData=[], filteredData=[], sortCol='data', sortDir=1, showAll=false;
-let autoRefreshTimer=null;
-
-// ========== INIT ==========
-window.addEventListener('DOMContentLoaded',()=>{
-  const saved = localStorage.getItem('repoUrl');
-  if(saved) document.getElementById('repoUrl').value=saved;
-  renderDoctorCards(); // show doctors immediately
-  fetchData();
-  // Auto-refresh a cada 5 minutos
-  autoRefreshTimer = setInterval(fetchData, 5*60*1000);
-});
-
-function saveRepoUrl(){
-  localStorage.setItem('repoUrl', document.getElementById('repoUrl').value);
+function salvarDoutoresLocal(lista) {
+  try { localStorage.setItem('top_doutores', JSON.stringify(lista)); } catch(e) {}
 }
 
-// ========== FETCH DATA FROM GITHUB ==========
-async function fetchData(){
-  const repoUrl = document.getElementById('repoUrl').value.trim();
-  if(!repoUrl){
-    setStatus('error','Configure a URL do repositório →');
-    return;
-  }
-  setStatus('loading','Buscando dados...');
-  document.getElementById('btnRefresh').disabled=true;
-  try{
-    // Adiciona cache-busting para evitar dados antigos
-    const url = repoUrl + '?t=' + Date.now();
-    const res = await fetch(url);
-    if(!res.ok) throw new Error(`HTTP ${res.status}`);
+function reconstruirPixMap() {
+  PIX_MAP = {};
+  DOUTORES.forEach(d => { if (d.pix) PIX_MAP[d.pix.trim()] = d; });
+}
+reconstruirPixMap();
+
+// ===================== TABS =====================
+function switchTab(tab) {
+  document.querySelectorAll('.tab-btn').forEach((b,i) => b.classList.toggle('active', ['dashboard','admin'][i] === tab));
+  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  if (tab === 'admin') renderAdmin();
+}
+
+// ===================== CORES =====================
+const CIDADE_CORES = {
+  "CAXIAS":"#00d4ff","FARROUPILHA":"#00ff9d","BENTO":"#a78bfa",
+  "ENCANTADO":"#fb923c","SOLEDADE":"#f472b6","GARIBALDI":"#facc15",
+  "VERANOPOLIS":"#34d399","SS DO CAI":"#60a5fa","FLORES":"#f87171"
+};
+function corCidade(c) { return CIDADE_CORES[c?.toUpperCase()] || "#6b7fa3"; }
+
+// ===================== CARREGAR DADOS =====================
+const DATA_URL = "https://raw.githubusercontent.com/Top-Desenvolvimento/top-estetica/main/dados.json";
+
+async function carregarDados() {
+  document.getElementById("loading").style.display = "flex";
+  document.getElementById("tab-dashboard").style.display = "none";
+  document.getElementById("btn-atualizar").disabled = true;
+
+  try {
+    const res = await fetch(DATA_URL + "?t=" + Date.now());
+    if (!res.ok) throw new Error("HTTP " + res.status);
     const json = await res.json();
 
-    // Processar dados: enriche com nome do doutor via chave PIX
-    allData = (json.dados||[]).map(r=>({
-      ...r,
-      doutor: findDoutorByPix(r.nf),
-      pixKey: normPix(r.nf)
-    }));
+    todosRegistros = (json.dados || []).map(r => {
+      const nf = (r.nf || "").trim();
+      const doutor = nf ? (PIX_MAP[nf] || null) : null;
+      return {
+        ...r,
+        doutor_nome: doutor ? doutor.nome : null,
+        doutor_bloqueado: doutor ? (doutor.bloqueado || doutor.limite === 0) : false,
+        tem_nf: !!nf
+      };
+    });
 
-    document.getElementById('mesRef').textContent    = json.mes_ref || '—';
-    document.getElementById('cidadesOk').textContent = `${json.cidades_ok||0} de 9 cidades`;
-    document.getElementById('updateTime').textContent = new Date(json.gerado_em).toLocaleString('pt-BR');
-    document.getElementById('updateBadge').style.display='flex';
+    const gerado = json.gerado_em ? new Date(json.gerado_em).toLocaleString("pt-BR") : "—";
+    document.getElementById("last-update").textContent = "Atualizado: " + gerado;
 
-    setStatus('active',`${allData.length} registros • atualizado`);
-    renderAll();
-  }catch(e){
-    setStatus('error','Erro ao carregar: '+e.message);
-    console.error(e);
+    renderizarTudo();
+    document.getElementById("loading").style.display = "none";
+    document.getElementById("tab-dashboard").style.display = "block";
+    document.getElementById("tab-dashboard").classList.add("active");
+
+  } catch(e) {
+    document.getElementById("loading").innerHTML = `
+      <div style="text-align:center;color:var(--danger)">
+        <div style="font-size:2rem;margin-bottom:1rem">⚠️</div>
+        <div style="font-weight:700;margin-bottom:0.5rem">Erro ao carregar dados</div>
+        <div style="font-size:0.8rem;color:var(--muted);margin-bottom:1.5rem">${e.message}</div>
+        <button class="btn btn-primary" onclick="carregarDados()">Tentar novamente</button>
+      </div>`;
   }
-  document.getElementById('btnRefresh').disabled=false;
+  document.getElementById("btn-atualizar").disabled = false;
 }
 
-// ========== TABS ==========
-function switchTab(n){
-  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',['doutores','lancamentos','cidades'][i]===n));
-  document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
-  document.getElementById('tab-'+n).classList.add('active');
+// ===================== RENDER =====================
+function renderizarTudo() {
+  registrosFiltrados = [...todosRegistros];
+  renderStats();
+  renderCidades();
+  renderFiltros();
+  renderTabela();
+  renderDoutores();
+  renderAlertas();
 }
 
-// ========== RENDER ALL ==========
-function renderAll(){ applyFilters(); renderSummary(); renderDoctorCards(); renderCityTable(); checkBlocked(); }
+function renderStats() {
+  const total = todosRegistros.reduce((s,r) => s + (r.valor||0), 0);
+  const comDoutor = todosRegistros.filter(r => r.doutor_nome);
+  const totalDoutor = comDoutor.reduce((s,r) => s + (r.valor||0), 0);
+  const bloqueados = DOUTORES.filter(d => d.bloqueado || d.limite === 0).length;
+  const cidades = [...new Set(todosRegistros.map(r => r.cidade))].length;
 
-// ========== FILTERS ==========
-function applyFilters(){
-  const city=document.getElementById('filterCity').value;
-  const doctor=document.getElementById('filterDoctor').value;
-  const search=document.getElementById('filterSearch').value.toLowerCase();
-  filteredData=allData.filter(r=>{
-    if(city&&r.cidade!==city) return false;
-    if(doctor&&r.doutor!==doctor) return false;
-    if(search&&!r.paciente.toLowerCase().includes(search)&&!r.doutor.toLowerCase().includes(search)) return false;
+  document.getElementById("stats-grid").innerHTML = `
+    <div class="stat-card" style="--accent-color:#00d4ff">
+      <div class="stat-label">Total PIX Doutores</div>
+      <div class="stat-value">R$ ${total.toLocaleString("pt-BR",{minimumFractionDigits:2})}</div>
+      <div class="stat-sub">${todosRegistros.length} registros no mês</div>
+    </div>
+    <div class="stat-card" style="--accent-color:#00ff9d">
+      <div class="stat-label">Vinculado a Doutor</div>
+      <div class="stat-value">R$ ${totalDoutor.toLocaleString("pt-BR",{minimumFractionDigits:2})}</div>
+      <div class="stat-sub">${comDoutor.length} com chave PIX identificada</div>
+    </div>
+    <div class="stat-card" style="--accent-color:#ffb547">
+      <div class="stat-label">Cidades Ativas</div>
+      <div class="stat-value">${cidades}</div>
+      <div class="stat-sub">de 9 unidades</div>
+    </div>
+    <div class="stat-card" style="--accent-color:#ff3b5c">
+      <div class="stat-label">Doutores Bloqueados</div>
+      <div class="stat-value">${bloqueados}</div>
+      <div class="stat-sub">PIX não autorizado</div>
+    </div>`;
+}
+
+function renderCidades() {
+  const cidades = {};
+  todosRegistros.forEach(r => {
+    const c = r.cidade || "SEM CIDADE";
+    if (!cidades[c]) cidades[c] = {total:0, count:0};
+    cidades[c].total += r.valor||0;
+    cidades[c].count++;
+  });
+
+  const sel = document.getElementById("filtro-cidade");
+  const cur = sel.value;
+  sel.innerHTML = '<option value="">Todas</option>';
+  Object.keys(cidades).sort().forEach(c => sel.innerHTML += `<option value="${c}">${c}</option>`);
+  sel.value = cur;
+
+  document.getElementById("cidades-grid").innerHTML = Object.entries(cidades)
+    .sort((a,b) => b[1].total - a[1].total)
+    .map(([c,d]) => `
+      <div class="cidade-card" onclick="filtrarCidade(this,'${c}')" style="border-top:3px solid ${corCidade(c)}">
+        <div class="cidade-nome">${c}</div>
+        <div class="cidade-total">R$ ${d.total.toLocaleString("pt-BR",{minimumFractionDigits:2})}</div>
+        <div class="cidade-count">${d.count} lançamentos</div>
+      </div>`).join("");
+}
+
+function renderFiltros() {
+  const doutores = [...new Set(todosRegistros.filter(r=>r.doutor_nome).map(r=>r.doutor_nome))].sort();
+  const sel = document.getElementById("filtro-doutor");
+  const cur = sel.value;
+  sel.innerHTML = '<option value="">Todos</option>';
+  doutores.forEach(d => sel.innerHTML += `<option value="${d}">${d}</option>`);
+  sel.value = cur;
+}
+
+function filtrarCidade(el, c) {
+  document.getElementById("filtro-cidade").value = c;
+  document.querySelectorAll(".cidade-card").forEach(e => e.classList.remove("active"));
+  el.classList.add("active");
+  aplicarFiltros();
+}
+
+function aplicarFiltros() {
+  const cidade = document.getElementById("filtro-cidade").value;
+  const doutor = document.getElementById("filtro-doutor").value;
+  const busca  = document.getElementById("filtro-busca").value.toLowerCase();
+  const status = document.getElementById("filtro-status").value;
+
+  registrosFiltrados = todosRegistros.filter(r => {
+    if (cidade && r.cidade !== cidade) return false;
+    if (doutor && r.doutor_nome !== doutor) return false;
+    if (busca  && !(r.paciente||"").toLowerCase().includes(busca)) return false;
+    if (status === "bloqueado" && !r.doutor_bloqueado) return false;
+    if (status === "ok" && r.doutor_bloqueado) return false;
     return true;
   });
-  const cities=[...new Set(allData.map(r=>r.cidade))].sort();
-  const doctors=[...new Set(allData.map(r=>r.doutor))].sort();
-  const ce=document.getElementById('filterCity'),cv=ce.value;
-  const de=document.getElementById('filterDoctor'),dv=de.value;
-  ce.innerHTML='<option value="">Todas</option>'+cities.map(c=>`<option value="${c}"${c===cv?' selected':''}>${c}</option>`).join('');
-  de.innerHTML='<option value="">Todos</option>'+doctors.map(d=>`<option value="${d}"${d===dv?' selected':''}>${d}</option>`).join('');
-  sortData(); renderTable();
+  renderTabela();
 }
-function clearFilters(){ document.getElementById('filterCity').value=''; document.getElementById('filterDoctor').value=''; document.getElementById('filterSearch').value=''; applyFilters(); }
 
-// ========== SORT ==========
-function sortBy(col){ if(sortCol===col) sortDir*=-1; else{sortCol=col;sortDir=1;} sortData(); renderTable(); }
-function sortData(){
-  filteredData.sort((a,b)=>{
-    if(sortCol==='valor') return (a.valor-b.valor)*sortDir;
-    if(sortCol==='data'){const pa=(a.data||'').split('/').reverse().join('');const pb=(b.data||'').split('/').reverse().join('');return pa.localeCompare(pb)*sortDir;}
-    return String(a[sortCol]).localeCompare(String(b[sortCol]))*sortDir;
+function limparFiltros() {
+  ["filtro-cidade","filtro-doutor","filtro-status"].forEach(id => document.getElementById(id).value = "");
+  document.getElementById("filtro-busca").value = "";
+  document.querySelectorAll(".cidade-card").forEach(e => e.classList.remove("active"));
+  registrosFiltrados = [...todosRegistros];
+  renderTabela();
+}
+
+function renderTabela() {
+  document.getElementById("table-count").textContent = `${registrosFiltrados.length} registros`;
+
+  if (!registrosFiltrados.length) {
+    document.getElementById("tabela-body").innerHTML = `<tr><td colspan="7" class="empty-state">Nenhum registro encontrado</td></tr>`;
+    return;
+  }
+
+  const porCidade = {};
+  registrosFiltrados.forEach(r => {
+    const c = r.cidade||"SEM CIDADE";
+    if (!porCidade[c]) porCidade[c] = [];
+    porCidade[c].push(r);
   });
-}
 
-// ========== SUMMARY ==========
-function renderSummary(){
-  const total=allData.reduce((s,r)=>s+r.valor,0);
-  document.getElementById('totalGeral').textContent=fmt(total);
-  document.getElementById('totalCount').textContent=`${allData.length} transações`;
-  const recPix={};
-  allData.forEach(r=>{if(r.pixKey) recPix[r.pixKey]=(recPix[r.pixKey]||0)+r.valor;});
-  let saldo=0,bloq=0;
-  DOUTORES.forEach(d=>{
-    const rec=recPix[normPix(d.pix)]||0,sal=d.limite-rec;
-    const isB=d.limite===0||d.pix==='não autorizado pix'||(d.pix&&d.limite>0&&sal<=0);
-    if(d.limite>0&&!isB) saldo+=sal;
-    if(isB) bloq++;
+  let html = "";
+  Object.entries(porCidade).sort().forEach(([cidade, regs]) => {
+    regs.forEach(r => {
+      const cor = corCidade(r.cidade);
+      html += `<tr class="${r.doutor_bloqueado?'bloqueado':''}">
+        <td>${r.data||""}</td>
+        <td><span class="badge-cidade" style="background:${cor}22;color:${cor};border:1px solid ${cor}44">${r.cidade||""}</span></td>
+        <td class="td-paciente" title="${r.paciente||""}">${r.paciente||""}</td>
+        <td style="font-size:0.75rem;color:var(--muted)">${r.responsavel||""}</td>
+        <td>${r.doutor_nome
+          ? (r.doutor_bloqueado
+            ? `<span class="badge-bloqueado">🚫 ${r.doutor_nome}</span>`
+            : `<span class="badge-doutor">${r.doutor_nome}</span>`)
+          : '<span style="color:var(--muted);font-size:0.75rem">—</span>'}</td>
+        <td class="td-valor">R$ ${(r.valor||0).toLocaleString("pt-BR",{minimumFractionDigits:2})}</td>
+        <td class="td-nf">${r.nf||"—"}</td>
+      </tr>`;
+    });
+    const sub = regs.reduce((s,r)=>s+(r.valor||0),0);
+    html += `<tr class="tr-cidade-total">
+      <td colspan="5" style="padding-left:1.5rem">Subtotal ${cidade}</td>
+      <td>R$ ${sub.toLocaleString("pt-BR",{minimumFractionDigits:2})}</td><td></td>
+    </tr>`;
   });
-  document.getElementById('totalSaldo').textContent=fmt(saldo);
-  document.getElementById('totalBloq').textContent=bloq;
+
+  document.getElementById("tabela-body").innerHTML = html;
 }
 
-// ========== DOCTOR CARDS ==========
-function renderDoctorCards(){
-  const recPix={};
-  allData.forEach(r=>{if(r.pixKey) recPix[r.pixKey]=(recPix[r.pixKey]||0)+r.valor;});
-  const computed=DOUTORES.map(d=>{
-    const pixN=normPix(d.pix),rec=recPix[pixN]||0,saldo=d.limite-rec;
-    const pct=d.limite>0?Math.min(rec/d.limite*100,100):(rec>0?100:0);
-    const isBlocked=d.limite===0||d.pix==='não autorizado pix'||(d.pix&&d.limite>0&&saldo<=0);
-    return{...d,rec,saldo,pct,isBlocked};
-  }).sort((a,b)=>{
-    if(a.isBlocked&&!b.isBlocked) return -1;
-    if(!a.isBlocked&&b.isBlocked) return 1;
-    return b.pct-a.pct;
+function renderDoutores() {
+  const usado = {};
+  todosRegistros.forEach(r => {
+    if (r.doutor_nome) usado[r.doutor_nome] = (usado[r.doutor_nome]||0) + (r.valor||0);
   });
-  let html='',shown=0,blockedCount=0;
-  computed.forEach(d=>{
-    if(!showAll&&d.limite===0&&d.pix!=='não autorizado pix') return;
-    shown++; if(d.isBlocked) blockedCount++;
-    const cls=d.isBlocked?'blocked':d.pct>=80?'warn':'ok';
-    const pfC=d.isBlocked||d.saldo<=0?'pf-block':d.pct>=80?'pf-warn':'pf-ok';
-    const sC=d.saldo<=0?'num-red':d.pct>=80?'num-yellow':'num-green';
-    html+=`<div class="doctor-card ${cls}">
-      ${d.isBlocked?'<div class="blocked-badge">🚫 BLOQUEADO</div>':''}
-      <div class="dc-name">${d.nome}</div>
-      ${d.local?`<div class="dc-local">${d.local}</div>`:'<div style="height:4px"></div>'}
-      <div class="dc-pix ${(!d.pix||d.pix==='não autorizado pix')?'no-pix':'ok-pix'}">${d.pix&&d.pix!=='não autorizado pix'?'🔑 '+d.pix:'⛔ PIX não autorizado'}</div>
-      <div class="dc-values">
-        <div class="dc-val"><div class="dc-val-label">Limite</div><div class="dc-val-num num-blue">${fmtK(d.limite)}</div></div>
-        <div class="dc-val"><div class="dc-val-label">Recebido</div><div class="dc-val-num num-green">${fmtK(d.rec)}</div></div>
-        <div class="dc-val"><div class="dc-val-label">Saldo</div><div class="dc-val-num ${sC}">${fmtK(d.saldo)}</div></div>
-      </div>
-      <div class="progress-bar"><div class="progress-fill ${pfC}" style="width:${Math.min(d.pct,100).toFixed(0)}%"></div></div>
-      <div class="pct-label">${Math.min(d.pct,100).toFixed(0)}% utilizado</div>
-    </div>`;
+
+  const html = DOUTORES
+    .slice()
+    .sort((a,b) => a.nome.localeCompare(b.nome, 'pt-BR'))
+    .map(d => {
+      const usadoVal = usado[d.nome] || 0;
+      const saldo = d.limite - usadoVal;
+      const pct = d.limite > 0 ? Math.min((usadoVal/d.limite)*100, 100) : 100;
+      const bloq = d.bloqueado || d.limite === 0 || saldo <= 0;
+      const saldoCls = saldo < 0 ? "danger" : saldo < d.limite*0.3 ? "warning" : "ok";
+      const fillCls = saldo <= 0 ? "danger" : saldo < d.limite*0.3 ? "warning" : "";
+
+      return `<div class="doutor-card ${bloq?'bloqueado':''}" onclick="filtrarDoutor('${d.nome}')">
+        <div class="doutor-nome">${bloq?"🚫 ":""}${d.nome}</div>
+        ${d.pix ? `<div class="doutor-pix">${d.pix}</div>` : ''}
+        ${d.limite > 0 ? `
+          <div class="progress-bar"><div class="progress-fill ${fillCls}" style="width:${pct}%"></div></div>
+          <div class="doutor-valores">
+            <span class="val-usado">Usado: R$ ${usadoVal.toLocaleString("pt-BR",{minimumFractionDigits:2})}</span>
+            <span class="val-saldo ${saldoCls}">Saldo: R$ ${saldo.toLocaleString("pt-BR",{minimumFractionDigits:2})}</span>
+          </div>` 
+        : `<div style="font-size:0.72rem;color:var(--danger);margin-top:6px">⛔ PIX bloqueado — limite zerado</div>`}
+      </div>`;
+    }).join("");
+
+  document.getElementById("doutores-lista").innerHTML = html || '<div class="empty-state">Nenhum doutor cadastrado</div>';
+}
+
+function filtrarDoutor(nome) {
+  switchTab('dashboard');
+  document.getElementById("filtro-doutor").value = nome;
+  aplicarFiltros();
+}
+
+function renderAlertas() {
+  const usado = {};
+  todosRegistros.forEach(r => { if(r.doutor_nome) usado[r.doutor_nome]=(usado[r.doutor_nome]||0)+(r.valor||0); });
+  const bloq = DOUTORES.filter(d => d.bloqueado || d.limite===0 || (d.limite>0 && (usado[d.nome]||0)>=d.limite));
+  if (!bloq.length) { document.getElementById("alerta-bloqueados").style.display="none"; return; }
+  document.getElementById("alerta-bloqueados").style.display="block";
+  document.getElementById("lista-bloqueados").innerHTML = bloq
+    .map(d => `🚫 ${d.nome} — ${d.bloqueado||d.limite===0 ? "PIX não autorizado" : "Crédito esgotado"}`).join("<br>");
+}
+
+// ===================== ADMIN =====================
+function renderAdmin() {
+  const tbody = document.getElementById("admin-tbody");
+  tbody.innerHTML = DOUTORES
+    .map((d,i) => `
+      <tr>
+        <td style="color:var(--muted);font-size:0.72rem">${i+1}</td>
+        <td><input class="admin-input" value="${d.nome}" onchange="atualizarDoutor(${i},'nome',this.value)" style="min-width:200px"></td>
+        <td><input class="admin-input" value="${d.pix||''}" onchange="atualizarDoutor(${i},'pix',this.value)" style="min-width:180px;font-family:'JetBrains Mono',monospace;font-size:0.75rem"></td>
+        <td><input class="admin-input limite" type="number" value="${d.limite}" min="0" onchange="atualizarDoutor(${i},'limite',parseFloat(this.value)||0)"></td>
+        <td>
+          <button class="bloqueado-toggle ${d.bloqueado||d.limite===0?'sim':'nao'}" onclick="toggleBloqueado(${i})">
+            ${d.bloqueado||d.limite===0 ? '🚫 Bloqueado' : '✅ Ativo'}
+          </button>
+        </td>
+        <td><button class="btn btn-danger" style="padding:4px 10px;font-size:0.75rem" onclick="removerDoutor(${i})">🗑</button></td>
+      </tr>`).join("");
+}
+
+function atualizarDoutor(i, campo, valor) {
+  DOUTORES[i][campo] = valor;
+}
+
+function toggleBloqueado(i) {
+  DOUTORES[i].bloqueado = !DOUTORES[i].bloqueado;
+  renderAdmin();
+}
+
+function removerDoutor(i) {
+  if (!confirm(`Remover "${DOUTORES[i].nome}"?`)) return;
+  DOUTORES.splice(i, 1);
+  renderAdmin();
+}
+
+function adicionarDoutor() {
+  const nome  = document.getElementById("novo-nome").value.trim();
+  const pix   = document.getElementById("novo-pix").value.trim();
+  const limite = parseFloat(document.getElementById("novo-limite").value) || 0;
+  if (!nome) { alert("Informe o nome do doutor"); return; }
+
+  DOUTORES.push({nome, pix, limite, bloqueado: false});
+  DOUTORES.sort((a,b) => a.nome.localeCompare(b.nome,'pt-BR'));
+
+  document.getElementById("novo-nome").value = "";
+  document.getElementById("novo-pix").value = "";
+  document.getElementById("novo-limite").value = "";
+  renderAdmin();
+}
+
+function salvarDoutores() {
+  // Ordenar A-Z antes de salvar
+  DOUTORES.sort((a,b) => a.nome.localeCompare(b.nome,'pt-BR'));
+  salvarDoutoresLocal(DOUTORES);
+  reconstruirPixMap();
+
+  // Re-enriquecer registros com novo mapa
+  todosRegistros = todosRegistros.map(r => {
+    const nf = (r.nf||"").trim();
+    const doutor = nf ? (PIX_MAP[nf]||null) : null;
+    return {...r, doutor_nome: doutor?doutor.nome:null, doutor_bloqueado: doutor?(doutor.bloqueado||doutor.limite===0):false};
   });
-  document.getElementById('doctorGrid').innerHTML=html||'<div style="color:var(--text-dim);font-size:13px;padding:20px;grid-column:1/-1">Nenhum doutor.</div>';
-  document.getElementById('dcCount').textContent=`(${shown} exibidos • ${blockedCount} bloqueados)`;
-}
-function toggleAll(){ showAll=!showAll; document.getElementById('btnToggle').textContent=showAll?'Ocultar sem limite':'Mostrar todos'; renderDoctorCards(); }
 
-// ========== CITY TABLE ==========
-function renderCityTable(){
-  const map={},total=allData.reduce((s,r)=>s+r.valor,0);
-  allData.forEach(r=>{map[r.cidade]=map[r.cidade]||{total:0,count:0,docs:new Set()};map[r.cidade].total+=r.valor;map[r.cidade].count++;map[r.cidade].docs.add(r.doutor);});
-  const sorted=Object.entries(map).sort((a,b)=>b[1].total-a[1].total);
-  const body=document.getElementById('cityBody');
-  if(!sorted.length){body.innerHTML='<tr><td colspan="6"><div class="empty-state"><div class="empty-icon">📍</div><div>Sem dados</div></div></td></tr>';return;}
-  body.innerHTML=sorted.map(([city,d])=>{
-    const key=city.toUpperCase().replace(/\s/g,'').replace('SSDOCAÍ','SSDOCAI').replace('VERANÓPOLIS','VERANOPOLIS');
-    const pct=total?(d.total/total*100):0;
-    return`<tr><td><span class="city-tag city-${key}">${city}</span></td>
-      <td style="font-family:'DM Mono',monospace;font-weight:700;color:var(--accent2)">${fmt(d.total)}</td>
-      <td style="color:var(--text-dim)">${d.count}</td><td style="color:var(--text-dim)">${d.docs.size}</td>
-      <td style="font-family:'DM Mono',monospace;font-size:12px;color:var(--text-dim)">${fmt(d.total/d.count)}</td>
-      <td style="min-width:110px"><div style="display:flex;align-items:center;gap:7px">
-        <div class="progress-bar" style="flex:1"><div class="progress-fill pf-ok" style="width:${pct.toFixed(1)}%"></div></div>
-        <span style="font-size:11px;color:var(--text-dim);font-family:'DM Mono',monospace;width:34px">${pct.toFixed(1)}%</span>
-      </div></td></tr>`;
-  }).join('')+`<tr style="background:var(--surface2);font-weight:700"><td style="color:var(--text-bright)">TOTAL</td><td style="font-family:'DM Mono',monospace;color:var(--accent)">${fmt(total)}</td><td style="color:var(--text-dim)">${allData.length}</td><td colspan="3"></td></tr>`;
+  renderAdmin();
+  renderizarTudo();
+
+  const notice = document.getElementById("save-notice");
+  notice.style.display = "block";
+  setTimeout(() => notice.style.display = "none", 3000);
 }
 
-// ========== TRANSACTIONS TABLE ==========
-function renderTable(){
-  const body=document.getElementById('tableBody');
-  document.getElementById('recordBadge').textContent=`${filteredData.length} registros`;
-  if(!filteredData.length){body.innerHTML='<tr><td colspan="7"><div class="empty-state"><div class="empty-icon">📭</div><div>Nenhum lançamento</div></div></td></tr>';return;}
-  body.innerHTML=filteredData.map(r=>{
-    const key=(r.cidade||'').toUpperCase().replace(/\s/g,'').replace('SSDOCAÍ','SSDOCAI').replace('VERANÓPOLIS','VERANOPOLIS');
-    return`<tr><td class="td-date">${r.data}</td><td class="td-doctor">${r.doutor}</td>
-      <td><span class="city-tag city-${key}">${r.cidade}</span></td>
-      <td>${r.paciente}</td><td class="td-payer">${r.responsavel||'—'}</td>
-      <td class="td-value">${fmt(r.valor)}</td>
-      <td class="td-nf" title="${r.nf}">${r.nf||'—'}</td></tr>`;
-  }).join('');
+function resetarDoutores() {
+  if (!confirm("Restaurar lista padrão de doutores? Suas edições serão perdidas.")) return;
+  DOUTORES = JSON.parse(JSON.stringify(DOUTORES_PADRAO));
+  salvarDoutoresLocal(DOUTORES);
+  reconstruirPixMap();
+  renderAdmin();
+  renderizarTudo();
 }
 
-// ========== BLOCKED ALERT ==========
-function checkBlocked(){
-  const recPix={};
-  allData.forEach(r=>{if(r.pixKey) recPix[r.pixKey]=(recPix[r.pixKey]||0)+r.valor;});
-  const bloq=DOUTORES.filter(d=>{
-    if(d.limite===0||d.pix==='não autorizado pix') return true;
-    if(!d.pix) return false;
-    return d.limite>0&&(recPix[normPix(d.pix)]||0)>=d.limite;
-  }).map(d=>d.nome);
-  const el=document.getElementById('alertBlocked');
-  if(bloq.length&&allData.length){
-    el.style.display='block';
-    el.innerHTML=`🚫 <strong>NÃO REPASSAR PIX — LIMITE ZERADO OU BLOQUEADO:</strong><br>${bloq.map(n=>`• ${n}`).join('<br>')}`;
-  } else el.style.display='none';
+// ===================== EXPORTAR =====================
+function exportarExcel() {
+  const wb = XLSX.utils.book_new();
+  const lancData = [
+    ["Data","Cidade","Paciente","Pago por","Doutor(a)","Chave PIX","Valor","Status"],
+    ...todosRegistros.map(r => [r.data,r.cidade,r.paciente,r.responsavel,r.doutor_nome||"—",r.nf||"",r.valor||0,r.doutor_bloqueado?"BLOQUEADO":"OK"])
+  ];
+  XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(lancData), "Lançamentos");
+
+  const cidades = {};
+  todosRegistros.forEach(r => { const c=r.cidade||"SEM CIDADE"; cidades[c]=(cidades[c]||0)+(r.valor||0); });
+  XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet([["Cidade","Total"],...Object.entries(cidades).sort()]), "Por Cidade");
+
+  const usado = {};
+  todosRegistros.forEach(r => { if(r.doutor_nome) usado[r.doutor_nome]=(usado[r.doutor_nome]||0)+(r.valor||0); });
+  const drData = [["Doutor(a)","Chave PIX","Limite","Usado","Saldo","Status"],
+    ...DOUTORES.map(d => { const u=usado[d.nome]||0; const s=d.limite-u; return [d.nome,d.pix,d.limite,u,s,d.bloqueado||d.limite===0?"BLOQUEADO":s<=0?"ESGOTADO":s<d.limite*0.3?"ATENÇÃO":"OK"]; })];
+  XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(drData), "Por Doutor");
+
+  XLSX.writeFile(wb, `TopEstetica_PIX_${new Date().toISOString().slice(0,7)}.xlsx`);
 }
 
-// ========== STATUS ==========
-function setStatus(t,m){
-  document.getElementById('statusDot').className='status-dot '+(t==='active'?'active':t==='loading'?'loading':t==='error'?'error':'');
-  document.getElementById('statusText').textContent=m;
-}
-
-// ========== EXPORT ==========
-function exportToExcel(){
-  const wb=XLSX.utils.book_new();
-  const ws1=XLSX.utils.aoa_to_sheet([['DATA','DOUTOR(A)','CIDADE','PACIENTE','RESPONSÁVEL','VALOR PIX','CHAVE PIX (NF)'],...allData.map(r=>[r.data,r.doutor,r.cidade,r.paciente,r.responsavel,r.valor,r.nf])]);
-  ws1['!cols']=[12,24,14,35,25,12,28].map(w=>({wch:w}));
-  XLSX.utils.book_append_sheet(wb,ws1,'Lançamentos');
-  const recPix={};
-  allData.forEach(r=>{if(r.pixKey) recPix[r.pixKey]=(recPix[r.pixKey]||0)+r.valor;});
-  const ws2=XLSX.utils.aoa_to_sheet([['DOUTOR(A)','LOCAL','CHAVE PIX','LIMITE','RECEBIDO','SALDO','STATUS'],...DOUTORES.map(d=>{const rec=recPix[normPix(d.pix)]||0,sal=d.limite-rec;const st=d.limite===0||d.pix==='não autorizado pix'?'BLOQUEADO':sal<=0?'BLOQUEADO':sal<d.limite*.2?'ATENÇÃO':'OK';return[d.nome,d.local,d.pix,d.limite,rec,sal,st];})]);
-  ws2['!cols']=[26,18,30,14,14,14,10].map(w=>({wch:w}));
-  XLSX.utils.book_append_sheet(wb,ws2,'Doutores');
-  XLSX.writeFile(wb,`TopEstetica_PIX_${new Date().toLocaleDateString('pt-BR').replace(/\//g,'-')}.xlsx`);
-}
-
-// ========== UTILS ==========
-function fmt(v){return new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(v||0);}
-function fmtK(v){if(Math.abs(v||0)>=1000)return((v||0)/1000).toFixed(1).replace('.',',')+' k';return fmt(v);}
+// ===================== INIT =====================
+carregarDados();
+setInterval(carregarDados, 30 * 60 * 1000);
 </script>
 </body>
 </html>
