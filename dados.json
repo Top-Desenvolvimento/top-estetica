@@ -1,0 +1,144 @@
+{
+  "gerado_em": "2026-02-20T19:31:55.210515",
+  "mes_ref": "02/2026",
+  "total_regs": 15,
+  "cidades_ok": 9,
+  "erros": [],
+  "dados": [
+    {
+      "data": "20/02/2026",
+      "cidade": "SOLEDADE",
+      "paciente": "Cassia Ramos da Silva (M) (6173) (Parcela 11/48)",
+      "responsavel": "O paciente",
+      "valor": 85.0,
+      "nf": "",
+      "origem_raw": "Recebido de Cassia Ramos da Silva (M) (6173) (Parcela 11/48) Pago por: O paciente"
+    },
+    {
+      "data": "20/02/2026",
+      "cidade": "SOLEDADE",
+      "paciente": "Ana Rosa (L) (4731) (Parcela 12/48)",
+      "responsavel": "O paciente",
+      "valor": 105.0,
+      "nf": "",
+      "origem_raw": "Recebido de Ana Rosa (L) (4731) (Parcela 12/48) Pago por: O paciente"
+    },
+    {
+      "data": "20/02/2026",
+      "cidade": "SOLEDADE",
+      "paciente": "Anita Benites Gonçalves (12172) (Parcela 1/1)",
+      "responsavel": "Mauricio Goncalves Machado",
+      "valor": 71.0,
+      "nf": "",
+      "origem_raw": "Recebido de Anita Benites Gonçalves (12172) (Parcela 1/1) Pago por: Mauricio Goncalves Machado"
+    },
+    {
+      "data": "20/02/2026",
+      "cidade": "SOLEDADE",
+      "paciente": "Andriel Morais Anhaia (L) (5278) (Parcela 1/1)",
+      "responsavel": "O paciente",
+      "valor": 85.0,
+      "nf": "",
+      "origem_raw": "Recebido de Andriel Morais Anhaia (L) (5278) (Parcela 1/1) Pago por: O paciente"
+    },
+    {
+      "data": "20/02/2026",
+      "cidade": "SOLEDADE",
+      "paciente": "Dirlei Padilha da Silva (L) (6117) (Parcela 1/1)",
+      "responsavel": "O paciente",
+      "valor": 150.0,
+      "nf": "",
+      "origem_raw": "Recebido de Dirlei Padilha da Silva (L) (6117) (Parcela 1/1) Pago por: O paciente"
+    },
+    {
+      "data": "20/02/2026",
+      "cidade": "SOLEDADE",
+      "paciente": "Daniel Sanderson De Moraes (M) (6470) (Parcela 1/1)",
+      "responsavel": "O paciente",
+      "valor": 85.0,
+      "nf": "",
+      "origem_raw": "Recebido de Daniel Sanderson De Moraes (M) (6470) (Parcela 1/1) Pago por: O paciente"
+    },
+    {
+      "data": "20/02/2026",
+      "cidade": "SOLEDADE",
+      "paciente": "Dirlei Padilha da Silva (L) (6117) (Parcela 1/1)",
+      "responsavel": "O paciente",
+      "valor": 206.0,
+      "nf": "",
+      "origem_raw": "Recebido de Dirlei Padilha da Silva (L) (6117) (Parcela 1/1) Pago por: O paciente"
+    },
+    {
+      "data": "20/02/2026",
+      "cidade": "ENCANTADO",
+      "paciente": "Estefani Natacha Oliveira Botassoli (12675) (Parcela 2/48)",
+      "responsavel": "O paciente",
+      "valor": 120.0,
+      "nf": "",
+      "origem_raw": "Recebido de Estefani Natacha Oliveira Botassoli (12675) (Parcela 2/48) Pago por: O paciente"
+    },
+    {
+      "data": "20/02/2026",
+      "cidade": "ENCANTADO",
+      "paciente": "Thauany Weyrich Nunes (11529) (Parcela 17/48)",
+      "responsavel": "O paciente",
+      "valor": 105.0,
+      "nf": "",
+      "origem_raw": "Recebido de Thauany Weyrich Nunes (11529) (Parcela 17/48) Pago por: O paciente"
+    },
+    {
+      "data": "20/02/2026",
+      "cidade": "ENCANTADO",
+      "paciente": "Daphini Primel (10727) (Parcela 1/1)",
+      "responsavel": "stefani biron",
+      "valor": 200.0,
+      "nf": "",
+      "origem_raw": "Recebido de Daphini Primel (10727) (Parcela 1/1) Pago por: stefani biron"
+    },
+    {
+      "data": "20/02/2026",
+      "cidade": "VERANÓPOLIS",
+      "paciente": "Ana Flavia da Silva Ail (7980) (Parcela 6/48)",
+      "responsavel": "wagner ail",
+      "valor": 158.0,
+      "nf": "",
+      "origem_raw": "Recebido de Ana Flavia da Silva Ail (7980) (Parcela 6/48) Pago por: wagner ail"
+    },
+    {
+      "data": "20/02/2026",
+      "cidade": "VERANÓPOLIS",
+      "paciente": "Vagner de Miranda Ail (5827) (Parcela 1/48)",
+      "responsavel": "O paciente",
+      "valor": 110.0,
+      "nf": "",
+      "origem_raw": "Recebido de Vagner de Miranda Ail (5827) (Parcela 1/48) Pago por: O paciente"
+    },
+    {
+      "data": "20/02/2026",
+      "cidade": "BENTO",
+      "paciente": "Vitoria REBECA STEFANOIS CRUZ (13216) (Parcela 1/1)",
+      "responsavel": "Pai da Vitoria",
+      "valor": 295.0,
+      "nf": "",
+      "origem_raw": "Recebido de Vitoria REBECA STEFANOIS CRUZ (13216) (Parcela 1/1) Pago por: Pai da Vitoria"
+    },
+    {
+      "data": "20/02/2026",
+      "cidade": "BENTO",
+      "paciente": "Jenifer Tais Vargas Freitas (13173) (Parcela 2/48)",
+      "responsavel": "O paciente",
+      "valor": 120.0,
+      "nf": "",
+      "origem_raw": "Recebido de Jenifer Tais Vargas Freitas (13173) (Parcela 2/48) Pago por: O paciente"
+    },
+    {
+      "data": "20/02/2026",
+      "cidade": "BENTO",
+      "paciente": "Luciana Phillipus Chaves (7547) (Parcela 8/48)",
+      "responsavel": "O paciente",
+      "valor": 120.0,
+      "nf": "",
+      "origem_raw": "Recebido de Luciana Phillipus Chaves (7547) (Parcela 8/48) Pago por: O paciente"
+    }
+  ]
+}
